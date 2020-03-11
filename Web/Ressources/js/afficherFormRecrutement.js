@@ -152,6 +152,13 @@ $(document).ready(function(){
 				$("#date-message").html("<ul><li>Date non valide</li></ul>");
 				return false;
 			}
+		} 
+	});
+
+	$("#nomService").click(function(){
+		if ($("#nomService").val() != "") {
+			$("#service").val($("#nomService").val());
+			$("#nomService").val("");
 		}
 	});
 
