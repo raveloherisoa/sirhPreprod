@@ -648,7 +648,103 @@
 				                </div>
 				                <div class="form-group">
 				                	<label class="label-input">Trait de personnalité :</label>
-				                  	<input class="form-control focus_activated" id="qualite" name="qualite" type="text" value="<?= $personnalite->getQualite();?>" required="required" data-validation-required-message="Veuillez entre un trait de personnalité *" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïàùçâ |'-]*" data-validation-regex-message="Caractères non valide *">
+				                  	<input class="form-control focus_activated" id="qualite" name="qualite" type="text" value="<?= $personnalite->getQualite();?>" required="required" data-validation-required-message="Veuillez entrer le trait de personnalité *" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïàùçâ |'-]*" data-validation-regex-message="Caractères non valide *">
+				                  	<p class="help-block text-danger"></p>
+				                </div>			                			                
+			            	</div>
+		            	</div>
+		            <?php endif; ?>
+
+		            <?php if ($url[1] == "service"): $pageTitle = "Enregistrement d'un service"; $service = $data; $url[1] = $url[1] . "s";?>            	
+				    	<div class="row">
+					        <div class="col-lg-12 text-center">
+					          	<h5><?= $pageTitle; ?></h5>
+					        </div>
+				      	</div>
+		            	<div class="row">
+		            		<div class="col-md-4"></div>
+		            		<div class="col-md-4 block-div">
+			            		<div class="form-group hidden">
+				                  	<input class="form-control" id="idService" name="idService" type="number" value="<?= $service->getIdService();?>">
+				                </div>
+				                <div class="form-group">
+				                	<label class="label-input">Nom du service :</label>
+				                  	<input class="form-control focus_activated" id="nomService" name="nomService" type="text" value="<?= $service->getNomService();?>" required="required" data-validation-required-message="Veuillez entrer le nom du service" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïàùçâ |'-]*" data-validation-regex-message="Caractères non valide *">
+				                  	<p class="help-block text-danger"></p>
+				                </div>			                			                
+			            	</div>
+		            	</div>
+		            <?php endif; ?>
+
+		            <?php if ($url[1] == "entreprise_service"): $pageTitle = "Enregistrement d'un service"; extract($data) ; $url[1] = $url[1] . "s";?>            	
+				    	<div class="row">
+					        <div class="col-lg-12 text-center">
+					          	<h5><?= $pageTitle; ?></h5>
+					        </div>
+				      	</div>
+		            	<div class="row">
+		            		<div class="col-md-4"></div>
+		            		<div class="col-md-4 block-div">
+			            		<div class="form-group hidden">
+				                  	<input class="form-control" id="idEntrepriseService" name="idEntrepriseService" type="number" value="<?= $entrepriseService->getIdEntrepriseService();?>">
+				                </div>
+			            		<div class="form-group hidden">
+				                  	<input class="form-control" id="idEntreprise" name="idEntreprise" type="number" value="<?= $entreprise->getIdEntreprise();?>">
+				                </div>
+				                <div class="form-group">
+				                	<label class="label-input">Nom du service :</label>
+				                  	<select  class="form-control span3 focus_activated" name="nomService" id="nomService">
+			                          	<option class="text-center" value="">__Choisir un service __</option>
+			                          	<?php foreach($allServices as $oneService): ?>
+			                            	<option 
+			                              	value="<?= $oneService->getNomService(); ?>">
+			                              	<?= ucfirst($oneService->getNomService()); ?>
+			                            	</option>
+			                          	<?php endforeach; ?>
+			                        </select><br>
+				                  	<input class="form-control focus_activated" id="service" name="service" type="text" value="<?= ucfirst($entrepriseService->getService());?>" required="required" data-validation-required-message="Veuillez entrer le nom du service" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïàùçâ |'-]*" data-validation-regex-message="Caractères non valide" placeholder="Saisir un service">
+				                  	<p class="help-block text-danger"></p>
+				                </div>			                			                
+			            	</div>
+		            	</div>
+		            <?php endif; ?>
+
+		            <?php if ($url[1] == "service_poste"): $pageTitle = "Enregistrement d'un poste"; $servicePoste = $data; $url[1] = $url[1] . "s";?>            	
+				    	<div class="row">
+					        <div class="col-lg-12 text-center">
+					          	<h5><?= $pageTitle; ?></h5>
+					        </div>
+				      	</div>
+		            	<div class="row">
+		            		<div class="col-md-4"></div>
+		            		<div class="col-md-4 block-div">
+			            		<div class="form-group hidden">
+				                  	<input class="form-control" id="idServicePoste" name="idServicePoste" type="number" value="<?= $servicePoste->getIdServicePoste();?>">
+				                </div>
+				                <div class="form-group">
+				                	<label class="label-input">Nom du poste :</label>
+				                  	<input class="form-control focus_activated" id="poste" name="poste" type="text" value="<?= $servicePoste->getPoste();?>" required="required" data-validation-required-message="Veuillez entrer le nom du poste" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïàùçâ |'-]*" data-validation-regex-message="Caractères non valide *">
+				                  	<p class="help-block text-danger"></p>
+				                </div>			                			                
+			            	</div>
+		            	</div>
+		            <?php endif; ?>
+
+		            <?php if ($url[1] == "poste"): $pageTitle = "Enregistrement d'un poste"; $poste = $data; $url[1] = $url[1] . "s";?>            	
+				    	<div class="row">
+					        <div class="col-lg-12 text-center">
+					          	<h5><?= $pageTitle; ?></h5>
+					        </div>
+				      	</div>
+		            	<div class="row">
+		            		<div class="col-md-4"></div>
+		            		<div class="col-md-4 block-div">
+			            		<div class="form-group hidden">
+				                  	<input class="form-control" id="idPoste" name="idPoste" type="number" value="<?= $poste->getIdPoste();?>">
+				                </div>
+				                <div class="form-group">
+				                	<label class="label-input">Nom du poste :</label>
+				                  	<input class="form-control focus_activated" id="nomPoste" name="nomPoste" type="text" value="<?= $poste->getNomPoste();?>" required="required" data-validation-required-message="Veuillez entrer le nom du poste" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïàùçâ |'-]*" data-validation-regex-message="Caractères non valide *">
 				                  	<p class="help-block text-danger"></p>
 				                </div>			                			                
 			            	</div>
