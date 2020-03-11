@@ -538,10 +538,8 @@
 									    <?php elseif ($entretien->getStatut() == "valide"): ?>
 									      	<a href="#" class="btn btn-danger modal-confirmation" data-toggle="modal" data-target="#confirmationModal" data-id="<?= $entretien->getIdEntretien(); ?>" data-name="annuler la validation de cet entretien" data-url="cancel-entretien?idEntretien=">Annuler la validation
 							                </a>
-<<<<<<< Updated upstream
-=======
+
 							                <a href="<?= HOST . "manage/recover-candidat?idCandidat=" . $candidat->getIdCandidat() ?>" class="btn btn-secondary">Embaucher</a>
->>>>>>> Stashed changes
 									    <?php elseif ($entretien->getStatut() == "rejete"): ?>
 									      	<a href="#" class="btn btn-danger modal-confirmation" data-toggle="modal" data-target="#confirmationModal" data-id="<?= $entretien->getIdEntretien(); ?>" data-name="annuler le rejet de cet entretien" data-url="cancel-entretien?idEntretien=">Annuler le rejet
 							                </a>
@@ -576,7 +574,7 @@
 					<thead>
 						<tr>
 							<th>Ordre</th>
-							<th>Service</th>
+							<th>Niveau</th>
 							<th class="text-center">Action</th>
 						</tr>
 					</thead>
