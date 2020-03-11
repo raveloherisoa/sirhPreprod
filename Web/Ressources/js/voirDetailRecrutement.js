@@ -14,3 +14,11 @@ $('#idInterlocuteur').change(function(){
 		window.location.href = "save-interlocuteur_niveau_entretien?idInterlocuteur=" + $('#idInterlocuteur').val();
 	}
 });
+
+$('#nomPoste').change(function(){
+	if ($('#nomPoste').val() == "autre") {		
+		window.location.href = "create-service_poste";
+	} else {
+		window.location.href = "save-service_poste?poste=" + $('#nomPoste').val();
+	}
+});
