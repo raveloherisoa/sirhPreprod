@@ -29,6 +29,10 @@
     use \Model\ManagerEmailContact;   
     use \Model\ManagerInterlocuteur;   
     use \Model\ManagerInterlocuteurNiveauEntretien;
+    use \Model\ManagerService;
+    use \Model\ManagerPoste;
+    use \Model\ManagerEntrepriseService;
+    use \Model\ManagerServicePoste;
 
     class ManagerModuleRecrutement extends DbManager
     {
@@ -182,6 +186,28 @@
         public function listerPersonnalites()
         {
             $manager = new ManagerPersonnalite();
+            return $manager->lister();
+        }
+
+        /** 
+         * Lister les services 
+         * 
+         * @return array
+         */
+        public function listerServices()
+        {
+            $manager = new ManagerService();
+            return $manager->lister();
+        }
+
+        /** 
+         * Lister les postes 
+         * 
+         * @return array
+         */
+        public function listerPostes()
+        {
+            $manager = new ManagerPoste();
             return $manager->lister();
         }
 
@@ -465,9 +491,9 @@
          */
         public function listerNiveauxEntretiens()
         {
-            $resultats         = array();
-            $manager           = new ManagerEntreprise();
-            $entreprise        = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
+            $resultats  = array();
+            $manager    = new ManagerEntreprise();
+            $entreprise = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
             if (!empty($entreprise)) {
                 $manager           = new ManagerNiveauEntretien();
                 $niveauxEntretiens = $manager->lister(['idEntreprise' => $entreprise->getIdEntreprise()]);
@@ -478,6 +504,25 @@
                 }
             }
             return $resultats;
+        }
+
+        /** 
+         * Lister les services d'une entreprise
+         * 
+         * @param array $parameters Critères des données à lister
+         * 
+         * @return array
+         */
+        public function listerEntrepriseServices()
+        {
+            $services   = array();
+            $manager    = new ManagerEntreprise();
+            $entreprise = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
+            if (!empty($entreprise)) {
+                $manager  = new ManagerEntrepriseService();
+                $services = $manager->lister(['idEntreprise' => $entreprise->getIdEntreprise()]);
+            }
+            return $services;
         }
 
         /** 
@@ -858,6 +903,83 @@
         public function afficherFormPersonnalite($parameters)
         {
             $manager  = new ManagerPersonnalite();
+            if (isset($parameters)) {
+                return $manager->chercher($parameters);
+            } else {
+                return $manager->initialiser();
+            } 
+        } 
+
+        /** 
+         * Afficher la formulaire d'un service
+         * 
+         * @param array $parameters Les données à récupérer
+         *
+         * @return Object
+         */
+        public function afficherFormService($parameters)
+        {
+            $manager  = new ManagerService();
+            if (isset($parameters)) {
+                return $manager->chercher($parameters);
+            } else {
+                return $manager->initialiser();
+            } 
+        } 
+
+        /** 
+         * Afficher la formulaire d'un service d'une entreprise
+         * 
+         * @param array $parameters Les données à récupérer
+         *
+         * @return Object
+         */
+        public function afficherFormEntrepriseService($parameters)
+        {
+            $manager     = new ManagerService();
+            $allServices = $manager->lister();
+            $manager     = new ManagerEntreprise();
+            $entreprise  = $manager->chercher(['idEntreprise' => $_SESSION['user']['idEntreprise']]);
+            $manager     = new ManagerEntrepriseService();
+            if (isset($parameters)) {
+                $entrepriseService = $manager->chercher($parameters);
+            } else {
+                $entrepriseService = $manager->initialiser();
+            } 
+            return [
+                "entreprise"        => $entreprise,
+                "allServices"       => $allServices,
+                "entrepriseService" => $entrepriseService
+            ];
+        } 
+
+        /** 
+         * Afficher la formulaire d'un poste d'un service
+         * 
+         * @param array $parameters Les données à récupérer
+         *
+         * @return Object
+         */
+        public function afficherFormServicePoste($parameters)
+        {
+            $manager     = new ManagerServicePoste();
+            if (isset($parameters)) {
+                return $manager->chercher($parameters);
+            } else {
+                return $manager->initialiser();
+            } 
+        } 
+
+        /** 
+         * Afficher la formulaire d'un poste
+         * 
+         * @param array $parameters Les données à récupérer
+         *
+         * @return Object
+         */
+        public function afficherFormPoste($parameters)
+        {
+            $manager  = new ManagerPoste();
             if (isset($parameters)) {
                 return $manager->chercher($parameters);
             } else {
@@ -1272,6 +1394,40 @@
         } 
 
         /** 
+         * Mettre à jour un service
+         * 
+         * @param array $parameters Les données à mettre à jour
+         *
+         * @return Object
+         */
+        public function mettreAJourService($parameters)
+        {
+            $manager = new ManagerService();
+            if (reset($parameters) == "") {
+                return $manager->ajouter($parameters);
+            } else {
+                return $manager->modifier($parameters);
+            }
+        } 
+
+        /** 
+         * Mettre à jour un poste
+         * 
+         * @param array $parameters Les données à mettre à jour
+         *
+         * @return Object
+         */
+        public function mettreAJourPoste($parameters)
+        {
+            $manager = new ManagerPoste();
+            if (reset($parameters) == "") {
+                return $manager->ajouter($parameters);
+            } else {
+                return $manager->modifier($parameters);
+            }
+        }
+
+        /** 
          * Mettre à jour une offre
          * 
          * @param array $parameters Les données à mettre à jour
@@ -1531,6 +1687,24 @@
         } 
 
         /** 
+         * Mettre à jour un service d'une entreprise
+         * 
+         * @param array $parameters Les données à mettre à jour
+         *
+         * @return Object
+         */
+        public function mettreAJourEntrepriseService($parameters)
+        {
+            unset($parameters['nomService']);
+            $manager = new ManagerEntrepriseService();
+            if (reset($parameters) == "") {
+                return $manager->ajouter($parameters);
+            } else {
+                return $manager->modifier($parameters);
+            }
+        } 
+
+        /** 
          * Modifier le niveau d'entretien 
          * 
          * @param array $parameters Les données à modifier
@@ -1581,7 +1755,7 @@
         } 
 
         /** 
-         * Mettre à jour un l'interlocuteur d'un niveau d'entretien
+         * Mettre à jour un interlocuteur d'un niveau d'entretien
          * 
          * @param array $parameters Les données à mettre à jour
          *
@@ -1601,6 +1775,21 @@
                 $_SESSION['info']['danger'] = ucwords($interlocuteur->getNom()) . " est déjà dans la liste";
             }
         } 
+
+        /** 
+         * Mettre à jour un poste d'un service
+         * 
+         * @param array $parameters Les données à mettre à jour
+         *
+         * @return empty
+         */
+        public function mettreAJourServicePoste($parameters)
+        {
+            $parameters['idEntrepriseService'] = $_SESSION['variable']['idEntrepriseService'];
+            echo "<pre>";
+            var_dump($parameters);
+            exit();
+        }
 
         /** 
          * Voir le détail d'un domaine 
@@ -1784,6 +1973,31 @@
                 ];
             }
             return $resultat;
+        }
+
+        /** 
+         * Voir le détail d'un service d'une entreprise
+         * 
+         * @param array $parameters Critères des données à voir 
+         * 
+         * @return array 
+         */
+        public function voirDetailEntrepriseService($parameters)
+        {
+            $servicePostes = "";
+            $manager = new ManagerPoste();
+            $allPoste = $manager->lister();
+            $manager = new ManagerEntrepriseService();
+            $entrepriseService = $manager->chercher($parameters);
+            if (!empty($entrepriseService)) {
+                $manager = new ManagerServicePoste();
+                $servicePostes = $manager->lister(['idEntrepriseService' => $entrepriseService->getIdEntrepriseService()]);
+            } 
+            return [
+                "allPoste"          => $allPoste,
+                "entrepriseService" => $entrepriseService,
+                "servicePostes"     => $servicePostes
+            ];
         }
 
         /** 
