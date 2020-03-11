@@ -608,6 +608,50 @@
 			</div>
 		<?php endif ?>
 
+		<?php if ($url == "entreprise_services") : $pageTitle = "Services d'une entreprise"; $services = $data;?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-entreprise_service";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+		      		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Liste des services</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Service</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($services)) : foreach ($services as $service): ?>
+							<tr class="text-center">
+								<td>
+						   			<?= ucfirst($service->getService()); ?>
+								</td>
+								<td class="text-center">
+									<a href="<?= HOST . "manage/entreprise_service?idEntrepriseService=" . $service->getIdEntrepriseService(); ?>" class="btn btn-info">
+							        	<i class="fas fa-eye"></i>
+							      	</a>
+							      	<a href="<?= HOST . "manage/update-entreprise_service?idEntrepriseService=" . $service->getIdEntrepriseService(); ?>" class="btn btn-warning">
+							        	<i class="fas fa-edit"></i>	
+							      	</a>					      		
+							      	<a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $service->getIdEntrepriseService(); ?>" data-name="<?= $service->getService(); ?>" data-url="delete-entreprise_service?idEntrepriseService=">
+					                 	<i class="fas fa-trash"></i>
+					                </a>
+								</td>
+							</tr>
+						<?php endforeach;?>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+
 		<?php if ($url == "interlocuteurs") : $pageTitle = "Interlocuteurs";?>
 			<div class="row">
 				<div class="col-md-3">
@@ -744,6 +788,88 @@
 							<tr>
 								<td>Aucun enregistrement touvé</td>
 							</tr>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+
+		<?php if ($url == "services") : $pageTitle = "Services"; ?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-service";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+		      		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Liste des services</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Services</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : $services = $data; foreach ($services as $service):?>
+						<tr>
+							<td>
+					   			<?= ucfirst($service->getNomService()); ?>
+							</td>
+							<td class="text-center">
+								<a href="<?= HOST . "manage/update-service?idService=" . $service->getIdService(); ?>" class="btn btn-warning">
+						        	<i class="fas fa-edit"></i>
+						      	</a>
+						      	<a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $service->getIdService(); ?>" data-name="<?= $service->getNomService(); ?>" data-url="delete-service?idService=">
+				                  	<i class="fas fa-trash"></i> 
+				                </a>
+							</td>
+						</tr>
+						<?php endforeach;?>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+
+		<?php if ($url == "postes") : $pageTitle = "Postes"; ?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-poste";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+		      		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Liste des postes</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Postes</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : $postes = $data; foreach ($postes as $poste):?>
+						<tr>
+							<td>
+					   			<?= ucfirst($poste->getNomPoste()); ?>
+							</td>
+							<td class="text-center">
+								<a href="<?= HOST . "manage/update-poste?idPoste=" . $poste->getIdPoste(); ?>" class="btn btn-warning">
+						        	<i class="fas fa-edit"></i>
+						      	</a>
+						      	<a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $poste->getIdPoste(); ?>" data-name="<?= $poste->getNomPoste(); ?>" data-url="delete-poste?idPoste=">
+				                  	<i class="fas fa-trash"></i> 
+				                </a>
+							</td>
+						</tr>
+						<?php endforeach;?>
 						<?php endif; ?>
 					</tbody>
 				</table>
@@ -1014,6 +1140,7 @@
 				</table>
 			</div>
 		<?php endif ?>
+
 	</div>	
 </section>
 
