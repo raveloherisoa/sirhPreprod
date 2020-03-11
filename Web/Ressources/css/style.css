@@ -1,0 +1,280 @@
+img#smile {
+    height: 50px;
+    width: 50px;
+}
+
+img#office {
+    height: 80px;
+    width: 80px;
+}
+
+#mainNav .navbar-nav .nav-list > a::after { 
+    content:" ▼";
+    font-size: 12px;
+}
+#mainNav .navbar-nav .nav-list .list { 
+    display: none;
+    text-decoration: none;
+    position: absolute;
+    background-color:rgba(0,0,0,0.7);
+    width:auto;
+    border-radius: 2px;
+    padding: 15px 34px;
+}
+#mainNav .navbar-nav .nav-list .list li a { 
+    color:white;
+    text-decoration: none;
+}
+#mainNav .navbar-nav .nav-list:hover .list { 
+    display: block;
+    color: white;
+}
+
+div#divSearch div {
+    margin-bottom:20px;
+}
+
+div#divSearch select, div#divSearch button {
+    background-color:rgb(230,230,230);
+    height:70%;
+    font-weight:700;
+    color:#191970;
+    font-family:Montserrat,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'
+}
+
+option.option-indication {
+    color:rgb(230,230,230);
+}
+
+div#divSearch button#link-search span i {   
+    color: #fff;
+    text-shadow: 2px 2px rgba(0,0,0,1);
+    font-size:50px;
+    position: absolute;
+    margin-top: -10px;
+}
+
+section#offre {
+    background-image: linear-gradient(to right, #083d8c, #2f66a4, #5f8eb7, #96b5c9, #d4dbde);
+}
+section#offre h2.section-heading, section#create-compte h2.section-heading, section#register h2.section-heading {
+    color:rgb(230,230,230);
+    text-shadow: 3px 0px black;
+}
+div.container div#list {    
+    background-color: rgba(255,255,255,0.1);
+}
+
+.offre-list{
+    padding:0;
+    margin:20px auto;
+    width: 100%;
+}
+.offre-list li{
+    width: 100%;
+    height:auto;
+    overflow: hidden;
+    display: block;
+    border-radius: 5px;
+    background-color: rgba(255,255,255,0.3);
+    -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    margin-bottom: 6px;
+    -webkit-transition: all 300ms linear;
+    -moz-transition: all 300ms linear;
+    -o-transition: all 300ms linear;
+    -ms-transition: all 300ms linear;
+    transition: all 300ms linear;
+}
+.offre-list li:last-child{
+    margin-bottom: 0px;
+}
+.offre-list li a{
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    margin: 10px 20px;
+}
+.entreprise-logo img {    
+    width: 90px;
+    
+}
+.entreprise-logo {    
+    font-family: 'WebSymbolsRegular', cursive;
+    font-size: 20px;
+    text-shadow: 0px 0px 1px #333;
+    color: #fff;
+    text-shadow: 2px 2px rgba(0,0,0,0.5);
+    text-align: center;
+    -webkit-transition: all 300ms linear;
+    -moz-transition: all 300ms linear;
+    -o-transition: all 300ms linear;
+    -ms-transition: all 300ms linear;
+    transition: all 300ms linear;
+}
+
+.offre-poste{
+    font-size: 30px;
+    color: #000;
+    -webkit-transition: all 300ms linear;
+    -moz-transition: all 300ms linear;
+    -o-transition: all 300ms linear;
+    -ms-transition: all 300ms linear;
+    transition: all 300ms linear;
+}
+.offre-detail{
+    font-size: 16px;
+    color: #000;
+    -webkit-transition: all 300ms linear;
+    -moz-transition: all 300ms linear;
+    -o-transition: all 300ms linear;
+    -ms-transition: all 300ms linear;
+    transition: all 300ms linear;
+}
+.offre-list li:hover{
+    background: #e1f0fa;
+    box-shadow: 2px 2px rgba(0,0,0,0.5);
+    border-left: 40px solid #259add;
+}
+.offre-list li:hover a{
+    text-decoration: none;
+}
+.offre-list li:hover .entreprise-logo {
+    font-size: 30px;
+    color:#259add;
+    text-shadow: 0px 0px 13px #fff;
+}
+.offre-list li:hover .offre-poste{
+    opacity: 1;
+    color:#2676ac;
+    -webkit-animation: moveFromTop 300ms ease-in-out;
+    -moz-animation: moveFromTop 300ms ease-in-out;
+    -ms-animation: moveFromTop 300ms ease-in-out;
+}
+.offre-list li:hover .offre-detail{
+    opacity: 1;
+    -webkit-animation: moveFromBottom 300ms ease-in-out;
+    -moz-animation: moveFromBottom 300ms ease-in-out;
+    -ms-animation: moveFromBottom 300ms ease-in-out;
+}
+@-webkit-keyframes moveFromBottom {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(200%);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: translateY(0%);
+    }
+}
+@-moz-keyframes moveFromBottom {
+    from {
+        opacity: 0;
+        -moz-transform: translateY(200%);
+    }
+    to {
+        opacity: 1;
+        -moz-transform: translateY(0%);
+    }
+}
+@-ms-keyframes moveFromBottom {
+    from {
+        opacity: 0;
+        -ms-transform: translateY(200%);
+    }
+    to {
+        opacity: 1;
+        -ms-transform: translateY(0%);
+    }
+}
+
+@-webkit-keyframes moveFromTop {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(-200%);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: translateY(0%);
+    }
+}
+@-moz-keyframes moveFromTop {
+    from {
+        opacity: 0;
+        -moz-transform: translateY(-200%);
+    }
+    to {
+        opacity: 1;
+        -moz-transform: translateY(0%);
+    }
+}
+@-ms-keyframes moveFromTop {
+    from {
+        opacity: 0;
+        -ms-transform: translateY(-200%);
+    }
+    to {
+        opacity: 1;
+        -ms-transform: translateY(0%);
+    }
+}
+section#detail-offre {
+    margin-top:2%;
+}
+section#detail-offre div.container div.offre-body {
+    text-align: justify;
+}
+section#detail-offre div.container div.offre-heading div h2 {
+    margin-top: 5px;
+}
+section#detail-offre div.container div.offre-body img {
+    width: 40%;
+    height: 30%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+section#detail-offre div.container div.offre-body label.name {
+    font-size: 25px;
+    color:#259add;
+    text-align: center;font-family: 'WebSymbolsRegular', cursive;
+    text-shadow: 0px 1px rgba(0,0,0,0.5);
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+section#create-compte, section#register {
+    background-color:#191970;
+}
+section#create-compte div.create-compte-form, section#register div.register-form {
+    padding: 2%;
+    background-color: rgba(255,255,255,0.1);
+    border-bottom: 5px dotted #fff;    
+    border-right: 5px dotted #fff;
+    border-left: 5px dotted #fff;
+}
+img.user-image {
+    height: 60%;
+    width: 70%;
+    border:2px inset #fff;
+}
+.customPagination, .paginacaoCursor{
+    margin: 5px;
+    padding: 8px 12px;
+    color: #fff;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid #fff;
+    box-shadow: 2px 2px #000;
+}
+
+#pagination-container {
+    padding: 12px;
+}
+
+#content-page {
+    min-height: 20rem;
+}

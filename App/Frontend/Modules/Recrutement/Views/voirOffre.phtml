@@ -1,0 +1,100 @@
+<?php
+	$pageTitle = "Introuvable";
+?>
+<section class="page-section" id="detail-offre">
+    <div class="container">
+	    <?php if (!empty($data)): extract($data); $pageTitle = $offre->getPoste(); ?>
+	    <div class="row">
+            <a href="<?= HOST . "offres"; ?>" class="btn btn-primary rounded-circle">
+              <i class="fas fa-arrow-left"></i>
+            </a>            
+        </div>
+	    <div class="row offre-heading">
+	        <div class="col-lg-12 text-center">
+	        	<h2>Poste : <?= $offre->getPoste(); ?></h2>
+	          	<h3 class="offre-detail">
+	          		Date d'émission : <?php
+						                $dateEmission = str_replace('-', '/', $offre->getDateEmission()); 
+						              	echo "<i>" . date('d/m/Y', strtotime($dateEmission)) . "</i>";
+						              ?>&nbsp;
+	            	Contrat : <i><?= $contrat->getDesignation() ?></i>&nbsp;
+	            	Date limite de candidature : <?php
+	              									$dateLimite = str_replace('-', '/', $offre->getDateLimite()); 
+	              									echo "<i>" . date('d/m/Y', strtotime($dateLimite)) . "</i>";
+	            								?>
+	            </h3>
+	            <hr>
+	        </div>
+	    </div>
+      	<div class="row offre-body">
+	        <div class="col-md-3">
+			    <h4 class="text-center">Entreprise</h4>
+			    <div class="row">			    	
+		        	<img src="<?= HOST; ?>Web/Ressources/images/entreprises/<?=  $entreprise->getLogo(); ?>" id="logo">
+			    </div>
+			    <div class="row">			    	
+		        	<label class="name"><?= $entreprise->getNom() ?></label>
+			    </div><hr>
+			    <div class="row">
+			    	<p>
+			    	<p>
+			    	<label class="text-center">
+	                  <p >
+	                  Activité : <?= $entreprise->getSecteurActivite() ?></br>
+	                  Adresse : <?= ucfirst($entreprise->getAdresse()) . " " . ucfirst($entreprise->getVille()); ?>
+	                  </p>
+	                </label> 
+			    </div> 
+	        </div>
+	        <div class="col-md-5">
+			    <h4 class="text-center">Mission</h4>
+		        <?= nl2br($offre->getMission()); ?>
+	        </div>	        
+	        <div class="col-md-4">
+			    <h4 class="text-center">Profil</h4>
+		        <ul>             
+	            	<?php if(!empty($niveauExperience)) :?>
+		                <li> Expérience : 
+		                  <?php
+		                    if ($niveauExperience->getOrdre() < 10) {
+		                      echo $niveauExperience->getNiveau(). " en " . $sousDomaine->getNomSousDomaine();
+		                    } else {
+		                      echo $niveauExperience->getNiveau(). " d'expérience(s) en " . $sousDomaine->getNomSousDomaine();
+		                    }
+		                ?></li>
+              		<?php endif; ?>
+	              	<?php if(!empty($niveauEtude)) :?>
+		                <li> Niveau : 
+		                  <?php
+		                    if ($niveauEtude->getOrdre() <= 10) {
+		                      echo $niveauEtude->getNiveau();
+		                    } else {
+		                      echo $niveauEtude->getNiveau(). " en " . $domaine->getNomDomaine();
+		                    }
+		                ?></li>
+	              	<?php endif; ?>
+              	 	<?php if($offre->getPersonnalite() != "") : $persos = explode('_', $offre->getPersonnalite()); foreach ($persos as $perso): if(!empty($perso)) :?>
+                		<li><?= ucfirst($perso) ?></li>
+              		<?php endif; endforeach; endif; ?>
+              		<?php if($offre->getTypeCompensation() != "") :?>
+                		<li> Type de compensation : <?= $offre->getTypeCompensation() ?></li>
+              		<?php endif; ?>
+	            </ul>
+	        </div>
+      	</div>
+      	<div class="row offre-footer">
+      		<div class="col-lg-12 text-center">
+                <?php if (!(isset($_SESSION['compte']) && $_SESSION['compte']['identifiant'] == 'superadmin')): ?>
+                	<?php if (!empty($candidature)): ?>
+	                  <i class="alert-info">Candidature déjà envoyée</i>
+	                <?php elseif (strtotime($offre->getDateLimite()) >= strtotime(date("Y-m-d"))) : ?>
+	                  <a href="<?= HOST . "manage/create-candidature?idOffre=" . $offre->getIdOffre(); ?>" class="btn btn-primary btn-xl js-scroll-trigger">
+	                    Postuler  
+	                  </a>
+	                <?php endif ?>
+                <?php endif ?>
+	        </div>
+      	</div>
+	    <?php endif; ?>
+    </div>
+ </section>

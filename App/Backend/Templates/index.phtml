@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+  		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  		<title><?= $pageTitle; ?></title>
+
+		<link rel="stylesheet" type="text/css" href="<?= HOST; ?>../Web/Ressources/css/plugin/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="<?= HOST; ?>../Web/Ressources/css/fontawesome-free/css/all.min.css">	
+		<link rel="stylesheet" type="text/css" href="<?= HOST; ?>../Web/Ressources/css/plugin/agency.min.css">			
+		<link rel="stylesheet" type="text/css" href="<?= HOST; ?>../Web/Ressources/css/plugin/datepicker.css">	
+ 		<link rel="stylesheet" type="text/css" href="<?= HOST; ?>../Web/Ressources/css/styleBack.css">		
+ 		<link rel="stylesheet" type="text/css" href="<?= HOST; ?>../Web/Ressources/css/tabs.css">		
+
+ 		<!-- Fonts CDN -->
+		<link rel="stylesheet" type="text/css" href="<?= HOST; ?>../Web/Ressources/css/plugin/fonts/montserrat.css">
+		<link rel="stylesheet" type="text/css" href="<?= HOST; ?>../Web/Ressources/css/plugin/fonts/kaushan.css">
+		<link rel="stylesheet" type="text/css" href="<?= HOST; ?>../Web/Ressources/css/plugin/fonts/serif.css">
+		<link rel="stylesheet" type="text/css" href="<?= HOST; ?>../Web/Ressources/css/plugin/fonts/roboto.css">
+
+		<script src="<?= HOST; ?>../Web/Ressources/js/plugin/jquery.min.js"></script>
+		<script src="<?= HOST; ?>../Web/Ressources/js/plugin/jquery.easing.min"></script>
+		<script src="<?= HOST; ?>../Web/Ressources/js/plugin/bootstrap.bundle.min"></script>
+		<script src="<?= HOST; ?>../Web/Ressources/js/plugin/jqBootstrapValidation.js"></script>
+		<script src="<?= HOST; ?>../Web/Ressources/js/plugin/agency.min.js"></script>			
+		<script src="<?= HOST; ?>../Web/Ressources/js/plugin/icon.js"></script>				
+		<script src="<?= HOST; ?>../Web/Ressources/js/plugin/datepicker.js"></script>	
+
+		<script src="<?= HOST; ?>../Web/Ressources/js/plugin/popper.min.js"></script>		
+		<script src="<?= HOST; ?>../Web/Ressources/js/plugin/tippy-bundle.iief.min.js"></script>
+
+	</head>
+	<body>
+		<!-- Navigation -->
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    		<div class="container">
+      			<a class="navbar-brand js-scroll-trigger" href="<?= HOST . 'manage/' . $_SESSION['compte']['identifiant'] . '/dashboard';?>">
+      				<?php if (isset($_SESSION['user']['logo']) && $_SESSION['user']['logo'] != ""): ?>
+      					<img class="rounded-circle img-profil" src="<?= HOST . 'Web/Ressources/images/' . $_SESSION['compte']['identifiant'] . 's/'. $_SESSION['user']['logo'] ?>">
+      				<?php endif ?>
+      				<?php if (isset($_SESSION['user']['photo']) && $_SESSION['user']['photo'] != ""): ?>
+      					<img class="rounded-circle img-profil" src="<?= HOST . 'Web/Ressources/images/' . $_SESSION['compte']['identifiant'] . 's/'. $_SESSION['user']['photo'] ?>">
+      				<?php endif ?>
+      			<?= strtoupper($_SESSION['user']['nom']); ?>
+      			</a>      			
+			    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+			        Menu
+			    <i class="fas fa-bars"></i>
+			    </button>
+      			<div class="collapse navbar-collapse" id="navbarResponsive">
+			        <ul class="navbar-nav ml-auto">
+			          	<li class="nav-list nav-item">
+			            	<a class="nav-link js-scroll-trigger text-uppercase" href="#">Mon compte</a>
+		                	<ul class="list">
+		                    	<li><a href="<?= HOST . 'manage/' . $_SESSION['compte']['identifiant'] . '/dashboard';?>">Profil</a></li><br>		                    	
+		                    	<li><a href="<?= HOST;?>deconnexion">Deconnexion</a></li>
+		                	</ul>
+			          	</li>
+			        	<?php
+			          		if ($_SESSION['compte']['identifiant'] == "candidat") {
+			          			include_once(__DIR__ . '/menuCandidat.phtml');
+			          		} else if ($_SESSION['compte']['identifiant'] == "entreprise") {
+			          			include_once(__DIR__ . '/menuEntreprise.phtml');
+			          		} else 
+			          		if ($_SESSION['compte']['identifiant'] == "superadmin") {
+			          			include_once(__DIR__ . '/menuAdmin.phtml');
+			          		}
+			          	?>
+			        </ul>
+      			</div>
+    		</div>
+  		</nav>
+		<div id="content-page">
+			<?= $pageContent; ?>
+		</div>
+		<div class="container">
+			<?php if (isset($_SESSION['info'])) {
+	   			foreach ($_SESSION['info'] as $type => $message) {
+					echo "<div class='info container alert alert-" . $type . "' data-dismiss='alert' id='alert'>" . $message . "</div>";
+					unset($_SESSION['info']);		
+				}
+	    	}?>
+		</div>
+	</body>
+</html>
+
+<script src="<?= HOST; ?>../Web/Ressources/js/header.js"></script>

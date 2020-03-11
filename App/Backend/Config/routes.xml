@@ -1,0 +1,150 @@
+<?xml version = "1.0" encoding="UTF-8" standalone="yes" ?>
+<routes>
+	<route url="manage/create-compte" module="compte" action="creerCompte" user="superadmin"></route>
+	<route url="manage/update-compte" module="compte" action="modifierCompte" user="superadmin"></route>
+	<route url="manage/archive-compte" module="compte" action="modifierCompte" user="superadmin"></route>
+	<route url="manage/update-password" module="compte" action="modifierPassword"></route>
+	<route url="manage/edit-pseudo" module="compte" action="afficherForm"></route>
+	<route url="manage/save-pseudo" module="compte" action="modifierCompte"></route>
+
+	<route url="manage/superadmins" module="compte" action="lister" user="superadmin"></route>
+	<route url="manage/register-superadmin" module="compte" action="afficherForm" user="superadmin"></route>
+	<route url="manage/edit-superadmin" module="compte" action="afficherForm" user="superadmin"></route>
+	<route url="manage/save-superadmin" module="compte" action="mettreAJour" user="superadmin"></route>
+	<route url="manage/delete-superadmin" module="compte" action="supprimer" user="superadmin"></route>
+	<route url="manage/superadmin/dashboard" module="compte" action="voirProfil" user="superadmin"></route>
+	<route url="manage/superadmin" module="compte" action="voirDetail" user="superadmin"></route>
+
+	<route url="manage/activeEntreprises" module="compte" action="lister" user="superadmin"></route>
+	<route url="manage/inactiveEntreprises" module="compte" action="lister" user="superadmin"></route>
+	<route url="manage/archiveEntreprises" module="compte" action="lister" user="superadmin"></route>
+	<route url="manage/edit-entreprise" module="compte" action="afficherForm" user="entreprise"></route>
+	<route url="manage/save-entreprise" module="compte" action="mettreAJour" user="entreprise"></route>
+	<route url="manage/entreprise/dashboard" module="compte" action="voirProfil" user="entreprise"></route>
+	<route url="manage/entreprise" module="compte" action="voirDetail" user="superadmin"></route>
+
+	<route url="manage/activeCandidats" module="compte" action="lister" user="superadmin"></route>
+	<route url="manage/archiveCandidats" module="compte" action="lister" user="superadmin"></route>
+	<route url="manage/suggest_candidats" module="recrutement" action="lister" user="entreprise"></route>
+	<route url="manage/edit-candidat" module="compte" action="afficherForm" user="candidat"></route>
+	<route url="manage/save-candidat" module="compte" action="mettreAJour" user="candidat"></route>
+	<route url="manage/candidat/dashboard" module="compte" action="voirProfil" user="candidat"></route>
+	<route url="manage/candidat" module="compte" action="voirDetail" user="superadmin"></route>
+	<route url="manage/cv_candidat" module="recrutement" action="voirDetail" user="entreprise"></route>
+	<route url="manage/edit-personnalite_candidat" module="compte" action="afficherFormPersonnalite" user="candidat"></route>
+	<route url="manage/publish-candidat" module="compte" action="mettreAJourPubliqueCandidat" user="candidat"></route>
+	<route url="manage/recover-candidat" module="compte" action="recupererCandidat" user="entreprise"></route>
+
+	<route url="manage/emails_contacts" module="compte" action="lister" user="superadmin"></route>
+	<route url="manage/create-email_contact" module="compte" action="afficherForm" user="superadmin"></route>
+	<route url="manage/save-email_contact" module="compte" action="mettreAJour" user="superadmin"></route>
+	<route url="manage/update-email_contact" module="compte" action="afficherForm" user="superadmin"></route>
+	<route url="manage/delete-email_contact" module="compte" action="supprimer" user="superadmin"></route>
+
+	<route url="manage/historiques" module="compte" action="lister" user="superadmin"></route>
+	<route url="manage/historique" module="compte" action="voirDetail" user="superadmin"></route>
+
+	<route url="manage/create-employee" module="compte" action="creerCompte" user="entreprise"></route>
+	<route url="manage/register-employe" module="compte" action="afficherForm" user="entreprise"></route>
+
+	<route url="manage/domaines" module="recrutement" action="lister" user="superadmin"></route>
+	<route url="manage/domaine" module="recrutement" action="voirDetail" user="superadmin"></route>
+	<route url="manage/create-domaine" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/update-domaine" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/save-domaine" module="recrutement" action="mettreAJour" user="superadmin"></route>
+	<route url="manage/delete-domaine" module="recrutement" action="supprimerExcept" user="superadmin"></route>
+
+	<route url="manage/create-sousdomaine" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/update-sousdomaine" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/save-sousdomaine" module="recrutement" action="mettreAJour" user="superadmin"></route>
+	<route url="manage/delete-sousdomaine" module="recrutement" action="supprimerExcept" user="superadmin"></route>
+
+	<route url="manage/niveaux_experiences" module="recrutement" action="lister" user="superadmin"></route>
+	<route url="manage/create-niveau_experience" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/update-niveau_experience" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/save-niveau_experience" module="recrutement" action="mettreAJour" user="superadmin"></route>
+	<route url="manage/delete-niveau_experience" module="recrutement" action="supprimerExcept" user="superadmin"></route>
+
+	<route url="manage/niveaux_etudes" module="recrutement" action="lister" user="superadmin"></route>
+	<route url="manage/create-niveau_etude" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/update-niveau_etude" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/save-niveau_etude" module="recrutement" action="mettreAJour" user="superadmin"></route>
+	<route url="manage/delete-niveau_etude" module="recrutement" action="supprimerExcept" user="superadmin"></route>
+
+	<route url="manage/contrats" module="recrutement" action="lister" user="superadmin"></route>
+	<route url="manage/create-contrat" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/update-contrat" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/save-contrat" module="recrutement" action="mettreAJour" user="superadmin"></route>	
+	<route url="manage/delete-contrat" module="recrutement" action="supprimerExcept" user="superadmin"></route>
+
+	<route url="manage/personnalites" module="recrutement" action="lister" user="superadmin"></route>
+	<route url="manage/create-personnalite" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/update-personnalite" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/save-personnalite" module="recrutement" action="mettreAJour" user="superadmin"></route>
+	<route url="manage/delete-personnalite" module="recrutement" action="supprimerExcept" user="superadmin"></route>
+
+	<route url="manage/formations" module="recrutement" action="lister" user="candidat"></route>
+	<route url="manage/create-formation" module="recrutement" action="afficherForm" user="candidat"></route>
+	<route url="manage/update-formation" module="recrutement" action="afficherForm" user="candidat"></route>
+	<route url="manage/save-formation" module="recrutement" action="mettreAJour" user="candidat"></route>
+	<route url="manage/delete-formation" module="recrutement" action="supprimer" user="candidat"></route>
+
+	<route url="manage/diplomes" module="recrutement" action="lister" user="candidat"></route>
+	<route url="manage/create-diplome" module="recrutement" action="afficherForm" user="candidat"></route>
+	<route url="manage/update-diplome" module="recrutement" action="afficherForm" user="candidat"></route>
+	<route url="manage/save-diplome" module="recrutement" action="mettreAJour" user="candidat"></route>
+	<route url="manage/delete-diplome" module="recrutement" action="supprimer" user="candidat"></route>
+
+	<route url="manage/experiences" module="recrutement" action="lister" user="candidat"></route>
+	<route url="manage/create-experience" module="recrutement" action="afficherForm" user="candidat"></route>
+	<route url="manage/update-experience" module="recrutement" action="afficherForm" user="candidat"></route>
+	<route url="manage/save-experience" module="recrutement" action="mettreAJour" user="candidat"></route>
+	<route url="manage/delete-experience" module="recrutement" action="supprimer" user="candidat"></route> 
+
+	<route url="manage/offres" module="recrutement" action="lister" user="entreprise"></route>
+	<route url="manage/suggest_offres" module="recrutement" action="lister" user="candidat"></route>
+	<route url="manage/offre" module="recrutement" action="voirDetail"></route>
+	<route url="manage/create-offre" module="recrutement" action="afficherForm" user="entreprise"></route>
+	<route url="manage/update-offre" module="recrutement" action="afficherForm" user="entreprise"></route>
+	<route url="manage/save-offre" module="recrutement" action="mettreAJour" user="entreprise"></route>
+	<route url="manage/actualize-offre" module="recrutement" action="mettreAJourOffre" user="entreprise"></route>
+	<route url="manage/delete-offre" module="recrutement" action="supprimerExcept" user="entreprise"></route>
+
+	<route url="manage/candidatures" module="recrutement" action="lister" user="candidat"></route>
+	<route url="manage/offre_candidatures" module="recrutement" action="lister" user="entreprise"></route>
+	<route url="manage/create-candidature" module="recrutement" action="mettreAJourCandidature" user="candidat"></route>
+	<route url="manage/accept-candidature" module="recrutement" action="mettreAJourCandidature" user="entreprise"></route>
+	<route url="manage/refuse-candidature" module="recrutement" action="mettreAJourCandidature" user="entreprise"></route>
+
+	<route url="manage/entretiens" module="recrutement" action="lister" user="entreprise"></route>
+	<route url="manage/create-entretien" module="recrutement" action="afficherForm" user="entreprise"></route>
+	<route url="manage/edit-entretien" module="recrutement" action="afficherForm" user="entreprise"></route>
+	<route url="manage/next_level-entretien" module="recrutement" action="afficherForm" user="entreprise"></route>
+	<route url="manage/save-entretien" module="recrutement" action="mettreAJour" user="entreprise"></route>
+	<route url="manage/validate-entretien" module="recrutement" action="mettreAJourEntretien" user="entreprise"></route>
+	<route url="manage/reject-entretien" module="recrutement" action="mettreAJourEntretien" user="entreprise"></route>
+	<route url="manage/cancel-entretien" module="recrutement" action="mettreAJourEntretien" user="entreprise"></route>
+
+	<route url="manage/niveaux_entretiens" module="recrutement" action="lister" user="entreprise"></route>
+	<route url="manage/niveau_entretien" module="recrutement" action="voirDetail" user="entreprise"></route>
+	<route url="manage/create-niveau_entretien" module="recrutement" action="afficherForm" user="entreprise"></route>
+	<route url="manage/update-niveau_entretien" module="recrutement" action="afficherForm" user="entreprise"></route>
+	<route url="manage/save-niveau_entretien" module="recrutement" action="mettreAJour" user="entreprise"></route>
+	<route url="manage/delete-niveau_entretien" module="recrutement" action="supprimerExcept" user="entreprise"></route>
+
+	<route url="manage/interlocuteurs" module="recrutement" action="lister" user="entreprise"></route>
+	<route url="manage/create-interlocuteur" module="recrutement" action="afficherForm" user="entreprise"></route>
+	<route url="manage/update-interlocuteur" module="recrutement" action="afficherForm" user="entreprise"></route>
+	<route url="manage/save-interlocuteur" module="recrutement" action="mettreAJour" user="entreprise"></route>
+	<route url="manage/delete-interlocuteur" module="recrutement" action="supprimerExcept" user="entreprise"></route>
+
+	<route url="manage/save-interlocuteur_niveau_entretien" module="recrutement" action="mettreAJour" user="entreprise"></route>
+	<route url="manage/delete-interlocuteur_niveau_entretien" module="recrutement" action="supprimer" user="entreprise"></route>
+
+	<route url="manage/tableau_de_bord-offre" module="recrutement" action="parametrerGraphe" user="entreprise"></route>
+	<route url="manage/tableau_de_bord-entretien" module="recrutement" action="parametrerGraphe" user="entreprise"></route>
+	<route url="manage/tableau_de_bord-interlocuteur" module="recrutement" action="parametrerGraphe" user="entreprise"></route>
+
+	<route url="manage/register-employe" module="recrutement" action="enregistrerEmploye" user="entreprise"></route>
+
+</routes>

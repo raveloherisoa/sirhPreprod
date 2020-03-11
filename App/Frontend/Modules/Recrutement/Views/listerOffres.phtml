@@ -1,0 +1,88 @@
+<?php 
+	$pageTitle = "Les offres d'emploi";
+	extract($data);
+?>
+<section class="bg-light page-section" id="offre">
+    <div class="container">
+      	<div class="row">
+          	<div class="col-lg-12 text-center">
+              	<h2 class="section-heading text-uppercase">Les offres d'emploi</h2>
+          	</div>
+        </div>
+        <div class="row text-center" id="divSearch"> 
+            <div class="col-md-4">
+                <select  class="form-control" name="idSousDomaine" id="idSousDomaine">
+					<option class="option-indication" value="">DOMAINE</option>
+						<?php foreach($sousDomaines as $sousDomaine): ?>
+			                <option 
+			                	<?php
+		                		if (isset($_GET['idSousDomaine']) && $_GET['idSousDomaine'] == $sousDomaine->getIdSousDomaine()) {
+		                			echo "selected";
+		                		}
+	                	?>
+	                	value="<?= $sousDomaine->getIdSousDomaine(); ?>">
+	                	<?= $sousDomaine->getNomSousDomaine(); ?>
+	                </option>
+	            <?php endforeach;?>
+	            </select>
+            </div>
+            <div class="col-md-4">
+                <select  class="form-control" name="idContrat" id="idContrat">
+					<option class="option-indication" value="">TYPE DE CONTRAT</option>
+				<?php foreach($contrats as $contrat): ?>
+	                <option 
+	                	<?php
+	                		if (isset($_GET['idContrat']) && $_GET['idContrat'] == $contrat->getIdContrat()) {
+	                			echo "selected";
+	                		}
+	                	?>
+	                	value="<?= $contrat->getIdContrat(); ?>">
+	                	<?= $contrat->getDesignation(); ?>
+	                </option>
+	            <?php endforeach;?>
+	            </select>
+            </div>
+            <div class="col-md-4">
+                <button class="btn" id="link-search">
+		          	<span class="fa-stack fa-2x">
+	                  <i class="fas fa-search fa-stack-1x fa-inverse"></i>
+	                </span>
+      			</button>
+            </div>
+        </div>      
+        <div class="row" id="list">
+        	<div class="col-lg-12">
+        		<ul class="offre-list">
+        			<?php if (!empty($offres)) : foreach ($offres as $offre) : extract($offre); ?>
+		        		<li class="offre-single">
+	                        <a href="<?= HOST . 'offre?idOffre=' . $offre->getIdOffre(); ?>">
+	                        	<div class="row">
+	                        		<div class="col-md-4 entreprise-logo">
+	                        			<img class="img-fluid" src="<?= HOST; ?>../Web/Ressources/images/entreprises/<?= $entreprise->getLogo(); ?>" alt="">
+	                        			<br><?= $entreprise->getNom(); ?>
+	                        		</div>
+	                        		<div class="col-md-8">
+	                        			<h2 class="offre-poste"><?= ucfirst($offre->getPoste()); ?></h2>
+		                                <h3 class="offre-detail">Contrat : <?= $contrat->getDesignation();?> &nbsp; &nbsp; Date limite : 
+					              			<?php
+							   					$dateLimite   = str_replace('-', '/', $offre->getDateLimite()); 
+							   					echo date('d/m/Y', strtotime($dateLimite)); 
+							   				?> </h3>
+	                        		</div>
+	                        	</div>
+	                        </a>
+	                    </li>
+      				<?php endforeach; ?>
+      				<?php else: ?>
+      					<li>Aucun enregistrement trouvé</li>
+      				<?php endif; ?>
+        		</ul>
+        	</div>
+        </div>
+        <div class="row col-lg-12" id="pagination-container">
+	        <p class='paginacaoCursor' id="beforePagination"><i class="fas fa-angle-left"></i></p>
+	        <p class='paginacaoCursor' id="afterPagination"><i class="fas fa-angle-right"></i></p>
+	    </div>
+    </div>
+</section>
+<script src="<?= HOST; ?>../Web/Ressources/js/listerOffresFront.js"></script>

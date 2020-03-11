@@ -1,0 +1,142 @@
+  <?php 
+    $url = explode('/', $_GET['page']);?>
+
+  <section class="page-section" id="back-section">
+      <div class="container">
+          <!-- <div class="row">
+            <div class="col-lg-12 text-center">
+              <h2 class="text-capitalize section-heading">Profil</h2>
+            </div>
+          </div> -->
+          <div class="row" >
+            <div class="col-lg-12" id="profil">
+                <div class="row">
+                  <?php if ($url[1] == "candidat"): $candidat = $data; $pageTitle = strtoupper($candidat->getNom());?>
+                    <div class="col-md-4 block-div"><!-- 
+                      <a href="<?= HOST;?>manage/cv_candidat" class="btn btn-success cv-btn">Mon CV&nbsp;<i class="fas fa-file-pdf"></i></a><hr>  -->
+                      <a class="btn btn-primary btn-xl" href="<?= HOST. "manage/edit-candidat?idCandidat=" . $candidat->getIdCandidat();?>"><i class="fas fa-user-edit"></i>&nbsp;Editer profil</a><br>
+                      <img class="img-fluid user-detail" src="
+                        <?php
+                          if ($candidat->getPhoto() != "") {
+                            echo HOST . "../Web/Ressources/images/candidats/" . $candidat->getPhoto();
+                          } else {
+                            echo HOST ."../Web/Ressources/images/profilCandidat.png";
+                          }
+                        ?>
+                      ">
+                      <h4> <?= $candidat->getCivilite() . ' ' . strtoupper($candidat->getNom()) . ' ' . ucwords($candidat->getPrenom()); ?> </h4>                    
+                      <i> <?= ucfirst($candidat->getDescription()); ?></i>
+                    </div>
+                    <div class="col-md-4 block-div">
+                      <?php 
+                        if ($candidat->getPublique() == 1) {
+                          echo "<i class='alert-success'>Votre profil est publié</i>&nbsp;&nbsp;";
+                          echo "<a href='" . HOST . "manage/publish-candidat?idCandidat=" . $candidat->getIdCandidat() . "' class='btn btn-danger' id='btn-desactive'><i class='far fa-eye-slash'></i></a>";
+                        } else {
+                          echo "<i class='alert-danger'>Votre profil est caché</i>&nbsp;&nbsp;";
+                          echo "<a href='" . HOST . "manage/publish-candidat?idCandidat=" . $candidat->getIdCandidat() . "' class='btn btn-success' id='btn-active'><i class='far fa-eye'></i></a>";
+                        }
+                      ?><br>
+                      <strong> Nom : </strong><?= strtoupper($candidat->getNom()); ?><br>
+                      <strong> Prénom : </strong><?= ucwords($candidat->getPrenom()); ?><br>
+                      <strong> Âge : </strong><?php $age = date("Y-m-d") - $candidat->getDateNaiss(); echo "<i>" . $age . " ans</i>"; ?><br>
+                      <strong> Adresse : </strong> <?= $candidat->getAdresse() . " " . ucwords($candidat->getVille()); ?> <br>
+                      <strong> Contact : </strong> <?php $contact = explode('/', $candidat->getContact()); echo $contact[1]; ?><br>
+                      <strong> Email : </strong> <?= strtolower($candidat->getEmail()); ?> <hr>
+                      <strong> Pseudo sur le site : </strong>
+                      <a id="pseudo-btn" href="<?= HOST . 'manage/edit-pseudo?idCompte=' . $_SESSION['compte']['idCompte']; ?>"><?= $_SESSION['compte']['login'] ?></a><br>
+                    </div>
+                    <div class="col-md-3 block-div">
+                      <?php if($candidat->getPersonnalite() != "") : ?>
+                        <strong> Personnalité : </strong>
+                        <ul> <?php 
+                        $personnalite = "";
+                        $persos = explode('_', $candidat->getPersonnalite());
+                        foreach ($persos as $perso) {
+                          if (!empty($perso)) {
+                            $personnalite .= "<li><i>" . ucfirst($perso) . "</i></li>";
+                          }
+                        }
+                        echo ucfirst($personnalite);
+                        ?></ul>
+                      <?php else : ?>
+                        <a class="renseignement" href="<?= HOST . "manage/edit-personnalite_candidat?idCandidat=" . $_SESSION['user']['idCandidat']; ?>">
+                          <i> Veuillez renseigner votre personnalité</i>
+                        </a>
+                      <?php endif; ?>                               
+                    </div>
+                    <div class="col-md-12 tab-menu">
+                      <ul id="tab-button">
+                        <li id="e"><a href="<?= HOST. "manage/candidat/dashboard";?>"><i class="fas fa-user"></i>&nbsp;<br>Profil</a></li>
+                        <li id="f"><a href="<?= HOST . "manage/formations"; ?>"><i class="fas fa-book-open"></i>&nbsp;<br>Formations</a></li>
+                        <li id="g"><a href="<?= HOST . "manage/diplomes"; ?>"><i class="fas fa-user-graduate"></i>&nbsp;<br>Diplômes</a></li>
+                        <li id="h"><a href="<?= HOST . "manage/experiences"; ?>"><i class="fas fa-award"></i>&nbsp;<br>Expériences</a></li>
+                      </ul>
+                    </div>
+                  <?php endif ?>
+
+                  <?php if ($url[1] == "entreprise"): $entreprise = $data; $pageTitle = strtoupper($entreprise->getNom()); ?>
+                    <div class="col-md-4 block-div">
+                      <a class="btn btn-primary btn-xl" href="<?= HOST. "manage/edit-entreprise?idEntreprise=" . $entreprise->getIdEntreprise();?>"><i class="fas fa-user-edit"></i>&nbsp;Editer profil</a><br>
+                      <img class="img-fluid user-detail" src="
+                        <?php
+                          if ($entreprise->getLogo() != "") {
+                            echo HOST . "../Web/Ressources/images/entreprises/" . $entreprise->getLogo();
+                          } else {
+                            echo HOST ."../Web/Ressources/images/defaultLogo.png";
+                          }
+                        ?>
+                      ">
+                      <h4> <?= $entreprise->getNom(); ?> </h4>                    
+                      <i> <?= $entreprise->getSecteurActivite(); ?></i>
+                    </div>
+                    <div class="col-md-4 block-div">
+                      <strong> Nom du Directeur Général : </strong><?= ucwords($entreprise->getNomDg()); ?><br>
+                      <strong> Référence NIF : </strong><?= $entreprise->getNif(); ?><br>
+                      <strong> Référence STAT :</strong><?= $entreprise->getStat(); ?><br>
+                      <strong> Adresse : </strong><?= $entreprise->getAdresse() . " " . ucwords($entreprise->getVille()); ?><br>
+                      <strong> Contact : </strong> <?php $contact = explode('/', $entreprise->getContact()); echo $contact[1]; ?><br>
+                      <?php if($entreprise->getContactRh() != 0) : ?>
+                        <strong> Contact RH : </strong><?= $entreprise->getContactRh(); ?><br>
+                      <?php endif; ?>
+                      <strong> Email : </strong> <?= strtolower($entreprise->getEmail()); ?>
+                    </div>
+                    <div class="col-md-3 block-div">
+                      <strong> Description : </strong><br><?= ucfirst($entreprise->getDescription()); ?><hr>
+                      <strong> Pseudo sur le site : </strong>
+                      <a id="pseudo-btn" href="<?= HOST . 'manage/edit-pseudo?idCompte=' . $_SESSION['compte']['idCompte']; ?>"><i> <?= $_SESSION['compte']['login'] ?> </i></a><br>                   
+                    </div>
+                  <?php endif ?>
+
+                  <?php if ($url[1] == "superadmin"): $superadmin = $data; $pageTitle = strtoupper($superadmin->getNom()); ?>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 block-profil">
+                      <a class="btn btn-primary btn-xl rounded-circle" href="<?= HOST. "manage/edit-superadmin?idSuperadmin=" . $superadmin->getIdSuperadmin();?>"><i class="fas fa-user-edit"></i></a><br>
+                      <!-- <img class="img-fluid user rounded-circle" src="<?= HOST; ?>Web/Ressources/images/superadmins/<?=  $superadmin->getPhoto(); ?>"> -->
+                      <img class="img-fluid user rounded-circle" src="
+                        <?php
+                          if ($superadmin->getPhoto() != "") {
+                            echo HOST; ?>Web/Ressources/images/superadmins/<?=  $superadmin->getPhoto();
+                          } else {
+                            echo HOST ."../Web/Ressources/images/profilAdmin.png";
+                          }
+                        ?>
+                      ">
+                      <h4 class="text-center"> <?= ucwords($superadmin->getNom()); ?> </h4><hr>                   
+                      <strong>Rôle : </strong><?= ucfirst($superadmin->getRole()); ?><br>
+                      <strong> Contact : </strong><?php $contact = explode('/', $superadmin->getContact()); echo $contact[1]; ?><br>
+                      <strong> Email : </strong><?= strtolower($superadmin->getEmail()); ?><hr>
+                      <strong> Pseudo sur le site : </strong>
+                      <a id="pseudo-btn" href="<?= HOST . 'manage/edit-pseudo?idCompte=' . $_SESSION['compte']['idCompte']; ?>"><i> <?= $_SESSION['compte']['login'] ?> </i></a><br>
+                    </div>
+                  <?php endif ?>
+                </div>
+            </div>
+          </div>
+      </div>
+  </section>
+
+  <script src="<?= HOST; ?>../Web/Ressources/js/voirProfil.js"></script>
+  <?php if ($_SESSION['compte']['identifiant'] == "candidat"): ?>
+    <script src="<?= HOST; ?>../Web/Ressources/js/tabCandidat.js"></script>
+  <?php endif ?>

@@ -1,0 +1,382 @@
+<style type="text/css" href="<?= HOST; ?>../Web/Ressources/css/plugin/dataTable.bootstrap.css"></style>
+<style type="text/css" href="<?= HOST; ?>../Web/Ressources/css/plugin/dataTable.responsive.css"></style>
+<?php 
+  $url = explode("/", $_GET['page']);
+  $url = $url[1];
+?>
+<section class="page-section" id="back-section">
+    <div class="container">
+      <?php if($url == "offre" && !empty($data)): extract($data); $pageTitle = "Offre : " . $offre->getPoste(); ?>
+        <div class="row">
+          <?php if ($_SESSION['compte']['identifiant'] == "entreprise"): ?>
+            <a href="<?= HOST . "manage/offres"; ?>" class="btn btn-primary rounded-circle">
+              <i class="fas fa-arrow-left"></i>
+            </a>
+          <?php elseif ($_SESSION['compte']['identifiant'] == "candidat"): ?>
+            <a href="<?= HOST . "manage/suggest_offres"; ?>" class="btn btn-primary rounded-circle">
+              <i class="fas fa-arrow-left"></i>
+            </a>
+          <?php endif; ?>
+            
+        </div>
+        <div class="row offre-heading">
+          <div class="col-lg-12 text-center">
+            <h2>Poste : <?= $offre->getPoste(); ?>
+              <?php if ($_SESSION['compte']['identifiant'] == "entreprise") : ?>                
+                <a href="<?= HOST . "manage/update-offre?idOffre=" . $offre->getIdOffre(); ?>" class="btn btn-warning">
+                  <i class="far fa-edit"></i>  
+                </a>
+              <?php endif; ?>
+            </h2>
+            <h3 class="offre-detail">
+              Date d'émission : <?php
+                          $dateEmission = str_replace('-', '/', $offre->getDateEmission()); 
+                          echo "<i>" . date('d/m/Y', strtotime($dateEmission)) . "</i>";
+                        ?>&nbsp;
+              Contrat : <i><?= $contrat->getDesignation() ?></i>&nbsp;
+              Date limite de candidature : <?php
+                                $dateLimite = str_replace('-', '/', $offre->getDateLimite()); 
+                                echo "<i>" . date('d/m/Y', strtotime($dateLimite)) . "</i>";
+                            ?>
+            </h3>
+            <hr>
+          </div>
+        </div>
+        <div class="row offre-body">
+          <div class="col-md-3">
+          <h4 class="text-center">Entreprise</h4>
+          <div class="row">           
+              <!-- <img src="<?= HOST; ?>Web/Ressources/images/entreprises/<?=  $entreprise->getLogo(); ?>" id="logo"> -->
+              <img id="logo" src="
+                        <?php
+                          if ($entreprise->getLogo() != "") {
+                            echo HOST . "../Web/Ressources/images/entreprises/" . $entreprise->getLogo();
+                          } else {
+                            echo HOST ."../Web/Ressources/images/defaultLogo.png";
+                          }
+                        ?>
+                      ">
+          </div>
+          <div class="row">           
+              <label class="name"><?= $entreprise->getNom() ?></label>
+          </div><hr>
+          <div class="row">
+            <p>
+            <p>
+            <label class="text-center">
+                    <p >
+                    Activité : <?= $entreprise->getSecteurActivite() ?></br>
+                    Adresse : <?= $entreprise->getAdresse() . " " . $entreprise->getVille(); ?>
+                    </p>
+                  </label> 
+          </div> 
+          </div>
+          <div class="col-md-5">
+          <h4 class="text-center">Mission</h4>
+            <?= nl2br($offre->getMission()); ?>
+          </div>          
+          <div class="col-md-4">
+          <h4 class="text-center">Profil</h4>
+            <ul>             
+                <?php if(!empty($niveauExperience)) :?>
+                    <li> Expérience : 
+                      <?php
+                        if ($niveauExperience->getOrdre() < 10) {
+                          echo $niveauExperience->getNiveau(). " en " . $sousDomaine->getNomSousDomaine();
+                        } else {
+                          echo $niveauExperience->getNiveau(). " d'expérience(s) en " . $sousDomaine->getNomSousDomaine();
+                        }
+                    ?></li>
+                  <?php endif; ?>
+                  <?php if(!empty($niveauEtude)) :?>
+                    <li> Niveau : 
+                      <?php
+                        if ($niveauEtude->getOrdre() <= 10) {
+                          echo $niveauEtude->getNiveau();
+                        } else {
+                          echo $niveauEtude->getNiveau(). " en " . $domaine->getNomDomaine();
+                        }
+                    ?></li>
+                  <?php endif; ?>
+                  <?php if($offre->getPersonnalite() != "") : $persos = explode('_', $offre->getPersonnalite()); foreach ($persos as $perso): if(!empty($perso)) :?>
+                    <li><?= ucfirst($perso) ?></li>
+                  <?php endif; endforeach; endif; ?>
+                  <?php if($offre->getTypeCompensation() != "") :?>
+                    <li> Type de compensation : <?= $offre->getTypeCompensation() ?></li>
+                  <?php endif; ?>
+              </ul>
+          </div>
+        </div>
+        <div class="row offre-footer">
+          <div class="col-lg-12 text-center">
+            <?php if ($_SESSION['compte']['identifiant'] == "candidat"): ?>
+              <?php if (!empty($candidature)): ?>
+                  <i class="alert-info">Candidature déjà envoyée</i>
+              <?php else : ?><i class="alert-info">
+                  <a href="<?= HOST . "manage/create-candidature?idOffre=" . $offre->getIdOffre(); ?>" class="btn btn-primary btn-xl js-scroll-trigger">
+                    Postuler  
+                  </a>
+              <?php endif ?>  
+            <?php elseif ($_SESSION['compte']['identifiant'] == "entreprise"): ?>
+              <a href="<?= HOST . "manage/suggest_candidats?idOffre=" . $offre->getIdOffre(); ?>" class="btn btn-primary">
+                Les candidats suggérés   
+              </a>
+              <a href="<?= HOST . "manage/offre_candidatures?idOffre=" . $offre->getIdOffre(); ?>" class="btn btn-primary">
+                Les candidatures 
+              </a>                
+              <a href="<?= HOST . 'manage/entretiens?idOffre=' . $offre->getIdOffre(); ?>" class="btn btn-primary">
+                Les entretiens
+              </a>
+            <?php endif; ?>
+          </div>
+        </div>
+      <?php endif; ?>
+
+      <?php if($url == "cv_candidat" && !empty($data)): extract($data); $pageTitle = "CV : " . strtoupper($candidat->getNom()) . " " . ucwords($candidat->getPrenom());?>
+        <div class="row">
+          <a href="javascript:void(0)" class="btn btn-download btn-success"><i class="fas fa-arrow-alt-circle-down"></i> Télécharger en pdf</a>
+        </div>
+        <div class="row cv-candidat" id="cv-candidat">
+            <div class="col-md-12 text-center">
+              <h2>CURRICULUM VITAE</h2>
+            </div>
+            <div class="col-md-8">
+              <label><?= $candidat->getCivilite() . " " . strtoupper($candidat->getNom()) . " " . ucwords($candidat->getPrenom()); ?></label><br>
+              <label>Age :<?php $age = date("Y-m-d") - $candidat->getDateNaiss(); echo " " . $age . " ans"; ?></label><br>
+              <label>Adresse : <?= " " . $candidat->getAdresse() . " " . ucwords($candidat->getVille()); ?></label><br>
+              <label>Tel : <?= " 0" . $candidat->getContact(); ?></label><br>
+              <label>E-mail : <?= " " . $candidat->getEmail(); ?></label>
+            </div> 
+            <div class="col-md-4">
+              <img class="float-left cv-photo" src="
+                <?php
+                  if ($candidat->getPhoto() != "") {
+                    echo HOST . "../Web/Ressources/images/candidats/" . $candidat->getPhoto();
+                  } else {
+                    echo HOST ."../Web/Ressources/images/profilCandidat.png";
+                  }
+                ?>
+              ">
+            </div>
+            <?php if(!empty($formations)): ?>
+              <div class="col-md-12 title">
+                <strong>FORMATIONS</strong>
+              </div>                
+              <div class="col-md-12">
+                <?php foreach ($formations as $formation) :?>
+                  <label>
+                    <?php
+                      $debut = str_replace('-', '/', $formation['formation']->getDateDebut());
+                      $fin   = str_replace('-', '/', $formation['formation']->getDateFin()); 
+                      echo "<strong>" . date('d/m/Y', strtotime($debut)) . " - " . date('d/m/Y', strtotime($fin)) . " : </strong>" . $formation['formation']->getDescription();
+                    ?>
+                  </label>
+                  <ul>
+                    <li>
+                      <label> Domaine : <?= $formation['sousDomaine']->getNomSousDomaine(); ?> </label>
+                    </li>
+                    <li>
+                      <label> Thème : <?= $formation['formation']->getTheme(); ?> </label>
+                    </li>
+                  </ul>
+                <?php endforeach; ?>
+              </div>
+            <?php endif;?>
+            <?php if(!empty($diplomes)): ?>
+              <div class="col-md-12 title">
+                <strong>DIPLOMES</strong>
+              </div>
+              <div class="col-md-12">
+                <?php foreach ($diplomes as $diplome) :?>
+                <label>
+                  <?php
+                    $date = str_replace('-', '/', $diplome['diplome']->getDateObtention());
+                    echo "<strong>" . date('d/m/Y', strtotime($date)) . " : </strong>" . $diplome['diplome']->getDesignation() . " en " . $diplome['domaine']->getNomDomaine();
+                  ?>
+                </label>
+                <ul>
+                  <li>
+                    <label> Ecole : <?= $diplome['diplome']->getEcole(); ?> </label>
+                  </li>
+                  <li>
+                    <label> Niveau d'étude : <?= $diplome['niveauEtude']->getNiveau(); ?> </label>
+                  </li>
+                </ul>
+                <?php endforeach; ?>
+              </div>
+            <?php endif;?>
+            <?php if(!empty($experiences)): ?>
+              <div class="col-md-12 title">
+                <strong>EXPERIENCES</strong>
+              </div>
+              <div class="col-md-12">
+                <?php foreach ($experiences as $experience) : ?>
+                <label>
+                  <?php
+                    $debut = str_replace('-', '/', $experience['experience']->getDateDebut());
+                    $fin   = str_replace('-', '/', $experience['experience']->getDateFin()); 
+                    echo "<strong>" . date('d/m/Y', strtotime($debut)) . " - " . date('d/m/Y', strtotime($fin)) . " : </strong>" . $experience['experience']->getDescription();
+                  ?>
+                </label>
+                <ul>
+                  <li>
+                    <label> Domaine : <?= $experience['sousDomaine']->getNomSousDomaine(); ?> </label>
+                  </li>
+                  <li>
+                    <label> Entreprise : <?= $experience['experience']->getEntreprise(); ?> </label>
+                  </li>
+                  <li>
+                    <label> Poste : <?= $experience['experience']->getPoste(); ?> </label>
+                  </li>
+                </ul>
+                <?php endforeach; ?>
+              </div>
+            <?php endif;?>
+        </div>
+      <?php endif; ?>
+
+      <?php if($url == "niveau_entretien" && !empty($data)): extract($data); $pageTitle = "Service d'entretien : " . $niveauEntretien->getService(); ?>
+        <?php $_SESSION['variable']['idNiveauEntretien'] = $niveauEntretien->getIdNiveauEntretien(); ?>
+        <div class="row">
+          <div class="col-md-2">
+            <a href="<?= HOST . "manage/niveaux_entretiens"; ?>" class="btn btn-primary rounded-circle">
+              <i class="fas fa-arrow-left"></i>
+            </a>  
+          </div>
+          <div class="col-md-8">
+            <div class="row text-center">
+              <h4>Service d'entretien : <?= $niveauEntretien->getService(); ?></h4>&nbsp;
+              <a href="<?= HOST . "manage/update-niveau_entretien?idNiveauEntretien=" . $niveauEntretien->getIdNiveauEntretien(); ?>" class="btn btn-warning">
+                <i class="fas fa-edit"></i> 
+              </a>
+            </div>
+            <div class="row">
+              <select class="form-control span3 btn-info col-md-6" name="idInterlocuteur" id="idInterlocuteur" required="required" data-validation-required-message="Veuillez séléctionner un interlocuteur.">
+                <option class="text-center" value="">Ajouter un interlocuteur</option>
+                <?php foreach ($allIntelocuteurs as $interlocuteur): ?>
+                  <option value="<?= $interlocuteur->getIdInterlocuteur(); ?>">
+                    <?= ucwords($interlocuteur->getNom()); ?>
+                  </option>
+                <?php endforeach ?>
+                <option class="text-center" value="autre">Autre</option>
+              </select>
+            </div>
+            <div class="row">
+              <table class="table table-stiped table-scroll small-first-col">
+              <thead>
+                <tr>
+                  <th>Les interlocuteur dans ce service</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody id="tableSearch" class="body-half-screen">
+                <?php if(!empty($interlocuteurs)) : foreach ($interlocuteurs as $interlocuteur) : extract($interlocuteur);?>
+                <tr>
+                  <td>
+                      <?= ucwords($interlocuteur->getNom()); ?>
+                  </td>
+                  <td class="text-center">
+                    <a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $interlocuteurNivEntretien->getIdInterlocuteurNiveauEntretien(); ?>" data-name="<?= ucwords($interlocuteur->getNom()); ?>" data-url="delete-interlocuteur_niveau_entretien?idInterlocuteurNiveauEntretien=">
+                      <i class="fas fa-trash"></i>   
+                    </a>
+                  </td>
+                </tr>
+                <?php endforeach; endif;?>
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+      <?php endif; ?>
+
+      <?php if($url == "domaine" && !empty($data)): extract($data); $pageTitle = "Domaine : " . $domaine->getNomDomaine(); ?>
+        <?php $_SESSION['variable']['idDomaine'] = $domaine->getIdDomaine(); ?>
+        <div class="row">
+          <div class="col-md-2">
+            <a href="<?= HOST . "manage/domaines"; ?>" class="btn btn-primary rounded-circle">
+              <i class="fas fa-arrow-left"></i>
+            </a>  
+          </div>
+          <div class="col-md-8">
+            <div class="row text-center">
+              <h4>Domaine : <?= $domaine->getNomDomaine(); ?></h4>
+            </div>
+            <div class="row">
+              <a href="<?= HOST . "manage/create-sousdomaine";?>" class="btn btn-info">
+                <i class="fas fa-plus"></i> Ajouter un sous domaine
+              </a>
+            </div>
+            <div class="row">
+              <table class="table table-stiped table-scroll small-first-col">
+              <thead>
+                <tr>
+                  <th>Sous domaine</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody class="body-half-screen">
+                <?php if(!empty($sousDomaines)) : foreach ($sousDomaines as $sousDomaine) :?>
+                <tr>
+                  <td>
+                      <?= $sousDomaine->getNomSousDomaine(); ?>
+                  </td>
+                  <td class="text-center">
+                    <a href="<?= HOST . "manage/update-sousdomaine?idSousDomaine=" . $sousDomaine->getIdSousDomaine(); ?>" class="btn btn-warning">
+                      <i class="fas fa-edit"></i>  
+                    </a>&nbsp;
+                    <a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $sousDomaine->getIdSousDomaine(); ?>" data-name="<?= $sousDomaine->getNomSousDomaine(); ?>" data-url="delete-sousdomaine?idSousDomaine=">
+                      <i class="fas fa-trash"></i>   
+                    </a>
+                  </td>
+                </tr>
+                <?php endforeach; endif;?>
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+      <?php endif; ?>
+      <!-- DOMAINE -->
+
+      
+
+      <!-- cv_candidat -->
+
+      
+    </div>
+ </section>
+
+ <!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="text-confirmation"></p>
+      </div>
+      <div class="modal-footer">
+        <a id="action-delete" class="btn btn-success">Oui</a>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Non</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="<?= HOST; ?>../Web/Ressources/css/tabs.css">
+<script src="<?= HOST; ?>../Web/Ressources/js/voirDetailRecrutement.js"></script>
+<script src="<?= HOST; ?>../Web/Ressources/js/tabs.js"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/es6-promise@4.2.5/dist/es6-promise.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+<script type="text/javascript" src="https://fbktnsetnet.000webhostapp.com/wp-content/uploads/2018/04/html2canvas.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.9.0/dist/html2pdf.min.js"></script>
+<script src="<?= HOST; ?>../Web/Ressources/js/cv.js"></script>
+
+<script src="<?= HOST; ?>../Web/Ressources/js/plugin/jquery.dataTables.min.js"></script>
+<script src="<?= HOST; ?>../Web/Ressources/js/plugin/datatable.js"></script>
+<script src="<?= HOST; ?>../Web/Ressources/js/plugin/dataTables.responsive.js"></script>

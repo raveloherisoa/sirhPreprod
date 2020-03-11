@@ -1,0 +1,1081 @@
+<style type="text/css" href="<?= HOST; ?>../Web/Ressources/css/plugin/dataTable.bootstrap.css"></style>
+<style type="text/css" href="<?= HOST; ?>../Web/Ressources/css/plugin/dataTable.responsive.css"></style>
+<?php
+	$url = explode("/", $_GET['page']);
+	$url = $url[1];
+	if ($url == "suggest_candidats") {
+		$title     = "Suggestion des candidats";
+		$pageTitle = "Candidats suggérés";
+	} else if ($url == "offre_candidatures") {
+		$title     = "Liste des candidatures";
+		$pageTitle = "Candidatures d'une offre";
+	}
+	unset($_SESSION['variable']);
+?>
+<section class="page-section" id="back-section">
+	<div class="container">
+    	<?php if ($url == "formations") : $pageTitle = "Formations";?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-formation";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+		      		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Mes formations</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Formation</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : extract($data); if(!empty($formations)): foreach ($formations as $formation):?>
+						<tr>
+							<td>
+					   			<strong>
+					   				<?php
+						   				$debut = str_replace('-', '/', $formation['formation']->getDateDebut());
+						   				$fin   = str_replace('-', '/', $formation['formation']->getDateFin()); 
+						   				echo date('d/m/Y', strtotime($debut)) . " - " . date('d/m/Y', strtotime($fin)) . ":";
+						   			?>
+					   			</strong>
+					   			<ul>
+					   				<li>
+					   					 Domaine : <?= ucfirst($formation['sousDomaine']->getNomSousDomaine()); ?> 
+					   				</li>
+					   				<li>
+					   					 Thème : <?= ucfirst($formation['formation']->getTheme()); ?> 
+					   				</li>
+					   				<li>
+					   					 Description : <?= ucfirst($formation['formation']->getDescription()); ?> 
+					   				</li>
+					   			</ul>
+							</td>
+							<td class="text-center">
+								<a href="<?= HOST . "manage/update-formation?idFormation=" . $formation['formation']->getIdFormation(); ?>" class="btn btn-warning">
+						        	<i class="fas fa-edit">	</i>
+						      	</a>
+						      	<a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $formation['formation']->getIdFormation(); ?>" data-name="ce formation" data-url="delete-formation?idFormation=">
+				                  <i class="fas fa-trash"></i>	
+				                </a>
+							</td>
+						</tr>
+						<?php endforeach; endif;?>
+						<?php else: ?> 
+							<tr>
+								<td>Aucun enregistrement touvé</td>
+							</tr>
+						<?php endif;?>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-12 tab-menu">
+	            <ul id="tab-button">
+                  <li id="e"><a href="<?= HOST. "manage/candidat/dashboard";?>"><i class="fas fa-user"></i>&nbsp;<br>Profil</a></li>
+                  <li id="f"><a href="<?= HOST . "manage/formations"; ?>"><i class="fas fa-book-open"></i>&nbsp;<br>Formations</a></li>
+                  <li id="g"><a href="<?= HOST . "manage/diplomes"; ?>"><i class="fas fa-user-graduate"></i>&nbsp;<br>Diplômes</a></li>
+                  <li id="h"><a href="<?= HOST . "manage/experiences"; ?>"><i class="fas fa-award"></i>&nbsp;<br>Expériences</a></li>
+                </ul>
+	        </div>
+		<?php endif ?>
+
+		<?php if ($url == "diplomes") : $pageTitle = "Diplômes";?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-diplome";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+		      		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Mes diplômes</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Diplôme</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : extract($data); if(!empty($diplomes)): foreach ($diplomes as $diplome):?>
+						<tr>
+							<td>
+					   			<strong>
+					   				<?php
+						   				$date = str_replace('-', '/', $diplome['diplome']->getDateObtention());
+						   				echo date('d/m/Y', strtotime($date)) . ":";
+						   			?>
+					   			</strong>
+					   			<ul>
+					   				<li>
+					   					 Diplôme : <?= ucfirst($diplome['diplome']->getDesignation()) . " en " . ucfirst($diplome['domaine']->getNomDomaine()); ?> 
+					   				</li>
+					   				<li>
+					   					 Ecole : <?= ucfirst($diplome['diplome']->getEcole()); ?> 
+					   				</li>
+					   				<li>
+					   					 Niveau d'étude : <?= $diplome['niveauEtude']->getNiveau(); ?> 
+					   				</li>
+					   			</ul>
+							</td>
+							<td class="text-center">
+								<a href="<?= HOST . "manage/update-diplome?idDiplome=" . $diplome['diplome']->getIdDiplome(); ?>" class="btn btn-warning">
+						        	<i class="fas fa-edit"></i>
+						      	</a>
+						      	<a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $diplome['diplome']->getIdDiplome(); ?>" data-name="ce diplôme" data-url="delete-diplome?idDiplome=">
+				                  	<i class="fas fa-trash"></i>	
+				                </a>
+							</td>
+						</tr>
+						<?php endforeach; endif;?>
+						<?php else: ?>
+							<tr>
+								<td>Aucun enregistrement touvé</td>
+							</tr>
+						<?php endif;?>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-12 tab-menu">
+	            <ul id="tab-button">
+	              	<li id="e"><a href="<?= HOST. "manage/candidat/dashboard";?>"><i class="fas fa-user"></i>&nbsp;<br>Profil</a></li>
+	              	<li id="f"><a href="<?= HOST . "manage/formations"; ?>"><i class="fas fa-book-open"></i>&nbsp;<br>Formations</a></li>
+	              	<li id="g"><a href="<?= HOST . "manage/diplomes"; ?>"><i class="fas fa-user-graduate"></i>&nbsp;<br>Diplômes</a></li>
+	              	<li id="h"><a href="<?= HOST . "manage/experiences"; ?>"><i class="fas fa-award"></i>&nbsp;<br>Expériences</a></li>
+	            </ul>
+	        </div>
+		<?php endif ?>
+
+		<?php if ($url == "experiences") : $pageTitle = "Expériences";?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-experience";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+		      		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Mes expériences</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Expérience</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : extract($data); if(!empty($experiences)): foreach ($experiences as $experience):?>
+						<tr>
+							<td>
+					   			<strong>
+					   				<?php
+						   				$debut = str_replace('-', '/', $experience['experience']->getDateDebut());
+						   				$fin   = str_replace('-', '/', $experience['experience']->getDateFin()); 
+						   				echo date('d/m/Y', strtotime($debut)) . " - " . date('d/m/Y', strtotime($fin)) . ":";
+						   			?>
+					   			</strong>
+					   			<ul>
+					   				<li>
+					   					 Domaine : <?= ucfirst($experience['sousDomaine']->getNomSousDomaine()); ?>
+					   				</li>
+					   				<li>
+					   					 Entreprise : <?= $experience['experience']->getEntreprise(); ?>
+					   				</li>
+					   				<li>
+					   					 Poste : <?= ucfirst($experience['experience']->getPoste()); ?>
+					   				</li>
+					   				<li>
+					   					 Description : <?= ucfirst($experience['experience']->getDescription()); ?>
+					   				</li>
+					   			</ul>
+							</td>
+							<td class="text-center">
+								<a href="<?= HOST . "manage/update-experience?idExperience=" . $experience['experience']->getIdExperience(); ?>" class="btn btn-warning">
+						        	<i class="fas fa-edit"></i>
+						      	</a>
+						      	<a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $experience['experience']->getIdExperience(); ?>" data-name="cette expérience" data-url="delete-experience?idExperience=">
+				                  <i class="fas fa-trash"></i>
+				                </a>
+							</td>
+						</tr>
+						<?php endforeach; endif;?>
+						<?php else: ?>
+							<tr>
+								<td>Aucun enregistrement touvé</td>
+							</tr>
+						<?php endif;?>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-12 tab-menu">
+	            <ul id="tab-button">
+                  <li id="e"><a href="<?= HOST. "manage/candidat/dashboard";?>"><i class="fas fa-user"></i>&nbsp;<br>Profil</a></li>
+                  <li id="f"><a href="<?= HOST . "manage/formations"; ?>"><i class="fas fa-book-open"></i>&nbsp;<br>Formations</a></li>
+                  <li id="g"><a href="<?= HOST . "manage/diplomes"; ?>"><i class="fas fa-user-graduate"></i>&nbsp;<br>Diplômes</a></li>
+                  <li id="h"><a href="<?= HOST . "manage/experiences"; ?>"><i class="fas fa-award"></i>&nbsp;<br>Expériences</a></li>
+                </ul>
+	        </div>
+		<?php endif ?>
+
+		<?php if ($url == "candidatures") : $pageTitle = "Candidatures envoyées";?>
+			<div class="row">
+				<div class="col-md-3">
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Les candidatures envoyées</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Candidature</th>
+							<th>Entretien</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : foreach ($data as $candidature): extract($candidature); ?>
+						<tr>
+							<td> 
+								<strong>
+					   				<?php
+						   				$date = str_replace('-', '/', $candidature->getDateCandidature());
+						   				echo "Envoyée le " . date('d/m/Y', strtotime($date)) . " : ";
+						   			?>
+					   			</strong><br>
+					   			Entreprise : <?= $entreprise->getNom(); ?><br>
+					   			Poste : <?= ucfirst($offre->getPoste()); ?>
+							</td>
+							<td>
+							<?php if (!empty($entretien)): ?>
+								<?php if ($entretien->getStatut() == "en attente") : ?>
+					   				<label>
+					   					Vous avez un rendez-vous pour un entretien
+					   					<?php if (!empty($interlocuteurs)): 
+					   						$collaborateurs = "";
+					   						echo " avec "; 
+					   						foreach ($interlocuteurs as $interlocuteur) {
+					   							$collaborateurs .= ucfirst($interlocuteur->getNom()) . ", ";
+					   						}
+					   					?>
+					   						<?= substr($collaborateurs, 0, -2); ?>
+					   					<?php endif; ?>
+					   				</label><br>
+					   			<?php elseif ($entretien->getStatut() == "valide"): ?>
+					   				<label>Votre entretien a été bien passé</label><br>
+					   			<?php else : ?>
+					   				<label>Dommage que votre entretien a été rejeté</label><br>
+					   			<?php endif ?>
+								<label> Date : </label>
+								<?php
+					   				$date = str_replace('-', '/', $entretien->getDate());
+					   				echo date('d/m/Y', strtotime($date));
+					   			?><br>
+					   			<label>Lieu : </label><?= $entretien->getLieu() . " à " . substr($entretien->getHeure(), 0, -3);?><br>
+					   			<label>Statut : </label>
+					   			<?php if ($entretien->getStatut() != "rejete") : ?>
+					   				<label class="alert-info"><?= $entretien->getStatut();?></label>
+					   			<?php else : ?>
+					   				<label class="alert-danger">rejeté</label>
+					   			<?php endif ?>
+					   		<?php else : ?>
+					   			<label>Entretien en attente</label>
+							<?php endif ?>
+							</td>
+						</tr>
+						<?php endforeach; endif;?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+
+		<?php if ($url == "suggest_offres") : $pageTitle = "Offres suggérées";?>
+			<div class="row">
+				<div class="col-md-3">
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Offres suggérées</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Offre</th><!-- 
+							<th class="text-center">Action</th> -->
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<tr>
+							<td>
+								<div class="row" id="list">
+					        	<div class="col-lg-12">
+					        		<ul class="offre-list">
+					        			<?php if (!empty($data)) : foreach ($data as $offre): extract($offre); ?>
+							        		<li>
+						                        <a href="<?= HOST . 'manage/offre?idOffre=' . $offre['offre']->getIdOffre(); ?>">
+						                        	<div class="row">
+						                        		<div class="col-md-4 entreprise-logo">
+						                        			<img class="img-fluid" src="<?= HOST; ?>../Web/Ressources/images/entreprises/<?= $offre['entreprise']->getLogo(); ?>" alt="">
+						                        			<br><?= $offre['entreprise']->getNom(); ?>
+						                        		</div>
+						                        		<div class="col-md-8">
+						                        			<h2 class="offre-poste"><?= ucfirst($offre['offre']->getPoste()); ?></h2>
+							                                <h3 class="offre-detail">Contrat : <?= $offre['contrat']->getDesignation();?> &nbsp; &nbsp; Date limite : 
+										              			<?php
+												   					$dateLimite   = str_replace('-', '/', $offre['offre']->getDateLimite()); 
+												   					echo date('d/m/Y', strtotime($dateLimite)); 
+												   				?> </h3>
+						                        		</div>
+						                        	</div>
+						                        </a>
+						                    </li>
+					      				<?php endforeach;?>
+										<?php else: ?>
+											<tr>
+												<td>Aucun enregistrement touvé</td>
+											</tr>
+										<?php endif; ?>
+					        		</ul>
+					        	</div>
+					        </div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+		
+		<?php if ($url == "offres") : $pageTitle = "Offres"; ?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-offre";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+			  		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Mes offres</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Offre</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : extract($data); if(!empty($offres)): foreach ($offres as $offre):?>
+						<tr>
+							<td>
+					   			<strong>
+					   				<?php
+						   				$dateEmission   = str_replace('-', '/', $offre['offre']->getDateEmission()); 
+						   				echo "Emission : " . date('d/m/Y', strtotime($dateEmission));
+						   			?>
+					   			</strong>
+					   			<ul>
+					   				<li>
+					   					 Poste : <?= ucfirst($offre['offre']->getPoste()); ?>
+					   				</li>
+					   				<li>
+					   					 Contrat : <?= $offre['contrat']->getDesignation(); ?>
+					   				</li>
+					   				<li>
+					   					Date limite de candidature : 
+					   					<?php
+						   					$dateLimite   = str_replace('-', '/', $offre['offre']->getDateLimite()); 
+						   					echo date('d/m/Y', strtotime($dateLimite)); 
+						   				?> 
+					   				</li>
+					   			</ul>
+							</td>
+							<td class="text-center">
+								<a href="<?= HOST . "manage/offre?idOffre=" . $offre['offre']->getIdOffre(); ?>" class="btn btn-info">
+						        	<i class="fas fa-eye"></i>
+						      	</a>
+						      	<!-- <a href="<?= HOST . "manage/actualize-offre?idOffre=" . $offre['offre']->getIdOffre(); ?>" class="btn btn-secondary">
+						        	Actualiser
+						      	</a> -->
+								<a href="<?= HOST . "manage/update-offre?idOffre=" . $offre['offre']->getIdOffre(); ?>" class="btn btn-warning">
+						        	<i class="fas fa-edit"></i>	
+						      	</a>
+							    <a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $offre['offre']->getIdOffre(); ?>" data-name="cette offre " data-url="delete-offre?idOffre=">
+				                  	<i class="fas fa-trash"></i> 
+				                </a>
+							</td>
+						</tr>
+						<?php endforeach; endif;?>
+						<?php else: ?>
+							<tr>
+								<td>Aucun enregistrement touvé</td>
+							</tr>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+
+		<?php if($url == "entretiens"): $pageTitle = "Entretiens"; ?> 
+			<?php if(!empty($data)) : extract($data); ?>
+			<div class="row">
+				<div class="col-md-3">
+					<?php if (isset($params) && !empty($data)) : extract($data); ?>
+					<a href="<?= HOST . "manage/offre?idOffre=" . (int)$params['idOffre']; ?>" class="btn btn-primary rounded-circle">
+	                  <i class="fas fa-arrow-left"></i>
+	                </a>
+					<?php endif; ?>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Liste des entretiens</h4>
+				</div>
+			</div>
+			<div class="row tab-menu">
+				<ul id="tab-button">
+					<?php if (!empty($niveauxEntretiens)): $tabId = [] ; $i = 1; foreach ($niveauxEntretiens as $niveauEntretien): 
+						$href = HOST . "manage/entretiens";
+						$tabs = $niveauEntretien->getService();
+						$lowercase = strtolower($tabs);
+						$search = explode(",","ç,æ,œ,á,é,í,ó,ú,à,è,ì,ò,ù,ä,ë,ï,ö,ü,ÿ,â,ê,î,ô,û,å,e,i,ø,u"); 
+						$replace = explode(",","c,ae,oe,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,y,a,e,i,o,u,a,e,i,o,u"); 
+						$urlTitle = str_replace($search, $replace, $lowercase);
+						$replaceSpace = str_replace(' ', '_', $urlTitle);
+						$tabId[] = $replaceSpace;
+						if (isset($_GET['idOffre'])) {
+							$href .= "?idOffre=" . $_GET['idOffre'] . "&idNiveauEntretien=" . $niveauEntretien->getIdNiveauEntretien(). "&tabs=".$replaceSpace;
+						} else {
+							$href .= "?idNiveauEntretien=" . $niveauEntretien->getIdNiveauEntretien() . "&tabs=".$replaceSpace;								
+						}
+					?>
+					<li id="<?php echo $replaceSpace;?>" class="<?= $i ?>">
+						<a href="<?= $href; ?>"><?= $niveauEntretien->getService(); ?></a>
+					</li>
+					<?php $i+=1; endforeach; endif; ?>
+				</ul>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th class="text-center">Entretiens</th>
+							<th class="text-center">Statut</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($entretiens)) : foreach ($entretiens as $entretien): extract($entretien);?>
+							<tr>
+								<td>
+									<div Class="row">
+										<strong>
+							   				<?php
+								   				$date = str_replace('-', '/', $entretien->getDate());
+								   				echo "Date : " . date('d/m/Y', strtotime($date)) . " : ";
+								   			?>
+							   			</strong>
+									</div>
+						   			<div class="row">
+										<div class="col-md-5">
+											<img src="
+												<?php
+						            				if ($candidat->getPhoto() != "") {
+						            					echo HOST . "../Web/Ressources/images/candidats/" . $candidat->getPhoto();
+						            				} else {
+						            					echo HOST ."../Web/Ressources/images/profilCandidat.png";
+						            				}
+						            			?>
+											" style="height: 100px; width: 100px;">
+										</div>
+						   				<div class="col-md-7">
+						   					<label><?= $candidat->getCivilite() . " " . strtoupper($candidat->getNom()) . " " . ucwords($candidat->getPrenom()); ?></label><br>
+							   				<label>Poste : </label><?= ucfirst($offre->getPoste()); ?><br>
+							   				
+							   				<label>Lieu : </label><?= ucfirst($entretien->getLieu()) . " à " . substr($entretien->getHeure(), 0, -3); ?><br>		   			
+							   			</div>
+									</div>
+								</td>
+								<td class="text-center">
+									<?php if ($entretien->getNbFois() > 1): ?>
+										<label><?= $entretien->getNbFois() . " ème "; ?> entretien</label>
+									<?php else: ?>
+										<label><?= $entretien->getNbFois() . " er "; ?> entretien</label>
+									<?php endif ?><br>
+									<?php if ($entretien->getStatut() != "rejete"): ?>
+										<label class="alert-info"> <?= $entretien->getStatut(); ?> </label>
+									<?php else : ?>
+										<label class="alert-danger"> <?= /*$entretien->getStatut();*/ "rejeté" ?> </label>
+									<?php endif ?>
+								</td>
+								<td class="text-center">
+									<?php if (!empty($engagedPost) && $entretien->getStatut() != "valide"): ?>
+										<label class="alert-danger">Poste non disponible</label>
+									<?php elseif (strtotime($offre->getDateLimite()) < strtotime(date("Y-m-d"))): ?>
+										<label class="alert-danger">Poste non disponible </label>
+									<?php else: ?>
+										<?php if ($entretien->getStatut() == "en attente"): ?>
+								      		<a href="<?= HOST . "manage/edit-entretien?idEntretien=" . $entretien->getIdEntretien(); ?>" class="btn btn-warning">
+									        	<i class="fas fa-edit"></i>
+									      	</a>								      	
+									      	<a href="#" class="btn btn-success modal-confirmation" data-toggle="modal" data-target="#confirmationModal" data-id="<?= $entretien->getIdEntretien(); ?>" data-name="valider cet entretien" data-url="validate-entretien?idEntretien=">
+									      		<i class="fas fa-thumbs-up"></i>
+							                </a>
+									      	<a href="#" class="btn btn-danger modal-confirmation" data-toggle="modal" data-target="#confirmationModal" data-id="<?= $entretien->getIdEntretien(); ?>" data-name="rejeter cet entretien" data-url="reject-entretien?idEntretien=">
+									      		<i class="fas fa-thumbs-down"></i>
+							                </a>
+									      	<a href="<?= HOST . "manage/next_level-entretien?idEntretien=" . $entretien->getIdEntretien(); ?>" class="btn btn-info">
+									        	Passer à un niveau	
+									      	</a>
+									    <?php elseif ($entretien->getStatut() == "valide"): ?>
+									      	<a href="#" class="btn btn-danger modal-confirmation" data-toggle="modal" data-target="#confirmationModal" data-id="<?= $entretien->getIdEntretien(); ?>" data-name="annuler la validation de cet entretien" data-url="cancel-entretien?idEntretien=">Annuler la validation
+							                </a>
+<<<<<<< Updated upstream
+=======
+							                <a href="<?= HOST . "manage/recover-candidat?idCandidat=" . $candidat->getIdCandidat() ?>" class="btn btn-secondary">Embaucher</a>
+>>>>>>> Stashed changes
+									    <?php elseif ($entretien->getStatut() == "rejete"): ?>
+									      	<a href="#" class="btn btn-danger modal-confirmation" data-toggle="modal" data-target="#confirmationModal" data-id="<?= $entretien->getIdEntretien(); ?>" data-name="annuler le rejet de cet entretien" data-url="cancel-entretien?idEntretien=">Annuler le rejet
+							                </a>
+								      	<?php endif; ?>
+									<?php endif ?>							      	
+								</td>
+							</tr>
+						<?php endforeach;?>
+						<?php else: ?>
+							<tr>
+								<td>Aucun enregistrement touvé</td>
+							</tr>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif; endif;?>
+
+		<?php if ($url == "niveaux_entretiens") : $pageTitle = "Niveaux des entretiens";?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-niveau_entretien";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+		      		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Liste des niveaux d'entretien</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Ordre</th>
+							<th>Service</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : $niveauxEntretiens = $data; $nbNiveau = count($niveauxEntretiens); foreach ($niveauxEntretiens as $niveauEntretien): ?>
+							<tr class="text-center">
+								<td>
+						   			<?= $niveauEntretien->getOrdre(); ?>
+								</td>
+								<td>
+						   			<?= $niveauEntretien->getService(); ?>
+								</td>
+								<td class="text-center">
+									<a href="<?= HOST . "manage/niveau_entretien?idNiveauEntretien=" . $niveauEntretien->getIdNiveauEntretien(); ?>" class="btn btn-info">
+							        	<i class="fas fa-eye"></i>
+							      	</a>
+									<a href="<?= HOST . "manage/update-niveau_entretien?idNiveauEntretien=" . $niveauEntretien->getIdNiveauEntretien(); ?>" class="btn btn-warning">
+							        	<i class="fas fa-edit"></i>	
+							      	</a>
+							      	<?php if ($nbNiveau != 1): ?>					      		
+								      	<a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $niveauEntretien->getIdNiveauEntretien(); ?>" data-name="<?= $niveauEntretien->getService(); ?>" data-url="delete-niveau_entretien?idNiveauEntretien=">
+						                 	<i class="fas fa-trash"></i>
+						                </a>
+							      	<?php endif ?>
+								</td>
+							</tr>
+						<?php endforeach;?>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+
+		<?php if ($url == "interlocuteurs") : $pageTitle = "Interlocuteurs";?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-interlocuteur";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+		      		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Liste des interlocuteurs</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Nom</th>
+							<th>Email</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : $interlocuteurs = $data; foreach ($interlocuteurs as $interlocuteur): ?>
+							<tr class="text-center">
+								<td>
+						   			<?= ucwords($interlocuteur->getNom()); ?>
+								</td>
+								<td>
+						   			<?= $interlocuteur->getEmail(); ?>
+								</td>
+								<td class="text-center">
+									<a href="<?= HOST . "manage/update-interlocuteur?idInterlocuteur=" . $interlocuteur->getIdInterlocuteur(); ?>" class="btn btn-warning">
+							        	<i class="fas fa-edit"></i>		
+							      	</a>
+							      	<a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $interlocuteur->getIdInterlocuteur(); ?>" data-name="<?= ucwords($interlocuteur->getNom()); ?>" data-url="delete-interlocuteur?idInterlocuteur=">
+					                  <i class="fas fa-trash"></i>	
+					                </a>
+								</td>
+							</tr>
+						<?php endforeach;?>
+						<?php else: ?>
+							<tr>
+								<td>Aucun enregistrement touvé</td>
+							</tr>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+
+		<?php if ($url == "domaines") : $pageTitle = "Domaines";?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-domaine";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+		      		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Liste des domaines</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Domaine</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : $domaines = $data; foreach ($domaines as $domaine):?>
+						<tr>
+							<td>
+					   			<?= $domaine->getNomDomaine(); ?>
+							</td>
+							<td class="text-center">
+								<a href="<?= HOST . "manage/domaine?idDomaine=" . $domaine->getIdDomaine(); ?>" class="btn btn-info">
+						        	<i class="fas fa-eye"></i>
+						      	</a>
+								<a href="<?= HOST . "manage/update-domaine?idDomaine=" . $domaine->getIdDomaine(); ?>" class="btn btn-warning">
+						        	<i class="fas fa-edit"></i>	
+						      	</a>
+						      	<a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $domaine->getIdDomaine(); ?>" data-name="<?= $domaine->getNomDomaine(); ?>" data-url="delete-domaine?idDomaine=">
+				                  	<i class="fas fa-trash"></i> 
+				                </a>
+							</td>
+						</tr>
+						<?php endforeach;?>
+						<?php else: ?>
+							<tr>
+								<td>Aucun enregistrement touvé</td>
+							</tr>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+
+		<?php if ($url == "personnalites") : $pageTitle = "Personnalités"; ?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-personnalite";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+		      		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Liste des personnalités</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Personnalités</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : $personnalites = $data; foreach ($personnalites as $personnalite):?>
+						<tr>
+							<td>
+					   			<?= ucfirst($personnalite->getQualite()); ?>
+							</td>
+							<td class="text-center">
+								<a href="<?= HOST . "manage/update-personnalite?idPersonnalite=" . $personnalite->getIdPersonnalite(); ?>" class="btn btn-warning">
+						        	<i class="fas fa-edit"></i>
+						      	</a>
+						      	<a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $personnalite->getIdPersonnalite(); ?>" data-name="<?= $personnalite->getQualite(); ?>" data-url="delete-personnalite?idPersonnalite=">
+				                  	<i class="fas fa-trash"></i> 
+				                </a>
+							</td>
+						</tr>
+						<?php endforeach;?>
+						<?php else: ?>
+							<tr>
+								<td>Aucun enregistrement touvé</td>
+							</tr>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+
+		<?php if ($url == "contrats") : $pageTitle = "Contrats"; ?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-contrat";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+		      		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Liste des contrats</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Contrats</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : $contrats = $data; foreach ($contrats as $contrat):?>
+						<tr>
+							<td>
+					   			<?= $contrat->getDesignation(); ?>
+							</td>
+							<td class="text-center">
+								<a href="<?= HOST . "manage/update-contrat?idContrat=" . $contrat->getIdContrat(); ?>" class="btn btn-warning">
+						        	<i class="fas fa-edit"></i>
+						      	</a>
+						      	<a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $contrat->getIdContrat(); ?>" data-name="<?= $contrat->getDesignation(); ?>" data-url="delete-contrat?idContrat=">
+				                  	<i class="fas fa-trash"></i> 
+				                </a>
+							</td>
+						</tr>
+						<?php endforeach;?>
+						<?php else: ?>
+							<tr>
+								<td>Aucun enregistrement touvé</td>
+							</tr>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+
+		<?php if ($url == "niveaux_experiences") : $pageTitle = "Niveaux d'expérience";?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-niveau_experience";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+		      		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Liste des niveaux d'expérience</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Ordre</th>
+							<th>Niveau d'expérience</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : $niveauxExperiences = $data; foreach ($niveauxExperiences as $niveauExperience):?>
+						<tr class="text-center">
+							<td>
+					   			<?= $niveauExperience->getOrdre(); ?>
+							</td>
+							<td>
+					   			<?= $niveauExperience->getNiveau(); ?>
+							</td>
+							<td class="text-center">
+								<a href="<?= HOST . "manage/update-niveau_experience?idNiveauExperience=" . $niveauExperience->getIdNiveauExperience(); ?>" class="btn btn-warning">
+						        	<i class="fas fa-edit"></i>
+						      	</a>
+						      	<a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $niveauExperience->getIdNiveauExperience(); ?>" data-name="<?= $niveauExperience->getNiveau(); ?>" data-url="delete-niveau_experience?idNiveauExperience=">
+				                  	<i class="fas fa-trash"></i> 
+				                </a>
+							</td>
+						</tr>
+						<?php endforeach;?>
+						<?php else: ?>
+							<tr>
+								<td>Aucun enregistrement touvé</td>
+							</tr>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+
+		<?php if ($url == "niveaux_etudes") : $pageTitle = "Niveaux d'étude"; ?>
+			<div class="row">
+				<div class="col-md-3">
+					<a href="<?= HOST . "manage/create-niveau_etude";?>" class="btn btn-primary" id="add-btn">
+						<i class="fas fa-plus"></i>	Ajouter	        		
+		      		</a>
+				</div>
+				<div class="col-md-6">
+					<h4 class="text-center list-title section-heading">Liste des niveaux d'étude</h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Ordre</th>
+							<th>Niveau d'étude</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : $niveauxEtudes = $data; foreach ($niveauxEtudes as $niveauEtude):?>
+						<tr class="text-center">
+							<td>
+					   			<?= $niveauEtude->getOrdre(); ?>
+							</td>
+							<td>
+					   			<?= $niveauEtude->getNiveau(); ?>
+							</td>
+							<td class="text-center">
+								<a href="<?= HOST . "manage/update-niveau_etude?idNiveauEtude=" . $niveauEtude->getIdNiveauEtude(); ?>" class="btn btn-warning">
+						        	<i class="fas fa-edit"></i>
+						      	</a>
+						      	<a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $niveauEtude->getIdNiveauEtude(); ?>" data-name="<?= $niveauEtude->getNiveau(); ?>" data-url="delete-niveau_etude?idNiveauEtude=">
+				                  <i class="fas fa-trash"></i> 
+				                </a>
+							</td>
+						</tr>
+						<?php endforeach;?>
+						<?php else: ?>
+							<tr>
+								<td>Aucun enregistrement touvé</td>
+							</tr>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+
+		<?php if($url == "suggest_candidats" || $url == "offre_candidatures") : extract($data);?>
+			<div class="row">
+				<div class="col-md-2">					
+		            <a href="<?= HOST . "manage/offre?idOffre=" . (int)$params['idOffre']; ?>" class="btn btn-primary rounded-circle">
+		              <i class="fas fa-arrow-left"></i>
+		            </a>
+				</div>
+				<div class="col-md-8">
+					<h4 class="text-center list-title section-heading"><?= $title; ?></h4>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-stiped table-scroll small-first-col">
+					<thead>
+						<tr>
+							<th>Candidat</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tableSearch" class="body-half-screen">
+						<?php if(!empty($data)) : foreach ($data as $candidat): extract($candidat); ?>
+						<tr>
+							<td> 
+								<div class="row">
+									<strong>
+										<?php
+											if (isset($candidature)) {
+												$dateCandidature = str_replace('-', '/', $candidature->getDateCandidature()); 
+								   				echo "Candidature : " . date('d/m/Y', strtotime($dateCandidature));
+											}
+							   			?>
+									</strong>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<img src="
+											<?php
+					            				if ($candidat['candidat']->getPhoto() != "") {
+					            					echo HOST . "../Web/Ressources/images/candidats/" . $candidat['candidat']->getPhoto();
+					            				} else {
+					            					echo HOST ."../Web/Ressources/images/profilCandidat.png";
+					            				}
+					            			?>
+										" style="height: 170px; width: 170px;">
+									</div>
+					   				<div class="col-md-8">
+					   					<label><?= $candidat['candidat']->getCivilite() . " " . strtoupper($candidat['candidat']->getNom()) . " " . ucwords($candidat['candidat']->getPrenom()); ?></label><br>
+						   				<label><strong>Âge : </strong></label><?php $age = date("Y-m-d") - $candidat['candidat']->getDateNaiss(); echo $age . " ans"; ?><br>
+						   				<?php if(!empty($candidat['experience']) && $candidat['experience']['annee'] != 0) :?>
+							   				<label><strong>Expérience(s) :</strong> </label><?= $candidat['experience']['annee'] . " an(s) en " . $candidat['experience']['sousDomaine']; ?><br>
+							   			<?php endif; ?>
+							   			<?php if(!empty($candidat['diplome'])) : ?>
+							   				<label><strong>Diplôme : </strong></label><?= $candidat['diplome']['libelle'] . " en " . $candidat['diplome']['domaine']; ?><br>
+							   			<?php endif; ?>
+							   			<?php if($candidat['candidat']->getPersonnalite() != " ") : ?>
+							   				<label><strong>Personnalité(s) : </strong></label>
+							   					<?php 
+							   						$personnalites = " ";
+							   						$tabs          = explode('_', $candidat['candidat']->getPersonnalite()); 
+							   						array_pop($tabs); 
+							   						foreach ($tabs as $tab) {
+							   							$personnalites .= ucfirst($tab) . ", ";
+							   						}
+							   						echo substr($personnalites, 0, -2);
+							   					?>
+							   			<?php endif; ?>						   			
+						   			</div>
+								</div>
+							</td>
+							<td class="text-center">
+								<a href="<?= HOST . "manage/cv_candidat?idCandidat=" . $candidat['candidat']->getIdCandidat(); ?>" class="btn btn-warning">
+						        	<i class="fas fa-eye"></i>	
+						      	</a>
+						      	<?php if ($url == "offre_candidatures" && $candidature->getStatut() == "envoye") : ?>
+							   		<!-- <a href="<?= HOST . "manage/accept-candidature?idCandidature=" . $candidature->getIdCandidature(); ?>" class="btn btn-success">
+							        	<i class="fas fa-check"></i>		
+							      	</a> -->
+
+							      	<a href="#" class="btn btn-success modal-confirmation" data-toggle="modal" data-target="#confirmationModal" data-id="<?= $candidature->getIdCandidature(); ?>" data-name="accepter cette candidature" data-url="accept-candidature?idCandidature=">
+							      		<i class="fas fa-check"></i>
+					                </a><!-- 
+							      	<a href="<?= HOST . "manage/refuse-candidature?idCandidature=" . $candidature->getIdCandidature(); ?>" class="btn btn-danger">
+							        	<i class="fas fa-times"></i>	
+							      	</a> -->
+							      	<a href="#" class="btn btn-danger modal-confirmation" data-toggle="modal" data-target="#confirmationModal" data-id="<?= $candidature->getIdCandidature(); ?>" data-name="refuser cette candidature" data-url="refuse-candidature?idCandidature=">
+							      		<i class="fas fa-times"></i>
+					                </a>
+							    <?php elseif ($url == "offre_candidatures" && $candidature->getStatut() == "refuse") : ?>
+							      	<a href="#" class="btn btn-success modal-confirmation" data-toggle="modal" data-target="#confirmationModal" data-id="<?= $candidature->getIdCandidature(); ?>" data-name="accepter cette candidature" data-url="accept-candidature?idCandidature=">
+							      		<i class="fas fa-check"></i>
+					                </a>
+							     	<label class="alert-danger">Candidature refusée</label>
+							    <?php elseif ($url == "offre_candidatures" && $candidature->getStatut() == "accepte") : ?>
+							      	<?php if (!empty($entretien)): ?>
+							      		<?php if ($entretien->getStatut() != "rejete"): ?>
+							      			<label class="alert-info">Etretien <?= $entretien->getStatut(); ?></label>
+							      		<?php else: ?>
+							      			<label class="alert-danger">Etretien rejeté</label>
+							      		<?php endif ?>
+							      	<? else : ?>
+							      		<a href="#" class="btn btn-danger modal-confirmation" data-toggle="modal" data-target="#confirmationModal" data-id="<?= $candidature->getIdCandidature(); ?>" data-name="refuser cette candidature" data-url="refuse-candidature?idCandidature=">
+								      		<i class="fas fa-times"></i>
+						                </a>
+								     	<a href="<?= HOST . "manage/create-entretien?idCandidature=" . $candidature->getIdCandidature(); ?>" class="btn btn-secondary">
+								        	Créer entretien	
+								      	</a><br>
+								     	<label class="alert-info">Candidature acceptée</label>
+							      	<?php endif ?>		
+							   	<?php endif; ?>
+							</td>
+						</tr>
+						<?php endforeach;?>
+						<?php else: ?>
+							<tr>
+								<td>Aucun enregistrement touvé</td>
+							</tr>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif ?>
+	</div>	
+</section>
+
+ <!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="text-confirmation"></p>
+      </div>
+      <div class="modal-footer">
+        <a id="action-delete" class="btn btn-success">Oui</a>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Non</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <!-- Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="text-confirmation"></p>
+      </div>
+      <div class="modal-footer">
+        <a id="action" class="btn btn-success">Oui</a>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Non</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="<?= HOST; ?>../Web/Ressources/js/listerRecrutement.js"></script>
+<?php if ($_SESSION['compte']['identifiant'] == "candidat"): ?>
+	<script src="<?= HOST; ?>../Web/Ressources/js/tabCandidat.js"></script>
+<?php elseif ($_SESSION['compte']['identifiant'] == "entreprise"): ?>
+	<script src="<?= HOST; ?>../Web/Ressources/js/tabEntreprise.js"></script>
+<?php endif ?>
+<script src="<?= HOST; ?>../Web/Ressources/js/plugin/jquery.dataTables.min.js"></script>
+<script src="<?= HOST; ?>../Web/Ressources/js/plugin/datatable.js"></script>
+<script src="<?= HOST; ?>../Web/Ressources/js/plugin/dataTables.responsive.js"></script>
+<script type="text/javascript">
+	var currentUrl      = window.location.href.split('&tabs=');
+	var currentTabs 	= <?php echo json_encode($tabId) ?>;
+	$(".1").addClass('is-active');
+	if(currentTabs.includes(currentUrl[1])) {
+	     $(".1").removeClass('is-active');
+	     $("#"+currentUrl[1]).addClass('is-active');
+	}
+</script>
