@@ -14,7 +14,7 @@
 	{
 		private $idEntrepriseService;
 		private $idEntreprise;
-		private $idService;
+		private $service;
 		
 		/** 
 		 * Initialisation d'un EntrepriseService
@@ -68,9 +68,9 @@
 			return $this->idEntreprise;
 		}
 
-		public function getIdService()
+		public function getService()
 		{
-			return $this->idService;
+			return $this->service;
 		}
 
 	// Seters
@@ -84,9 +84,9 @@
 			$this->idEntreprise = $idEntreprise;
 		}
 
-		public function setIdService($idService)
+		public function setService($service)
 		{
-			$this->idService = $idService;
+			$this->service = $service;
 		}
 		
 	}
