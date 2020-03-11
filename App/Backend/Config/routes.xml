@@ -83,6 +83,27 @@
 	<route url="manage/save-personnalite" module="recrutement" action="mettreAJour" user="superadmin"></route>
 	<route url="manage/delete-personnalite" module="recrutement" action="supprimerExcept" user="superadmin"></route>
 
+	<route url="manage/services" module="recrutement" action="lister" user="superadmin"></route>
+	<route url="manage/create-service" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/update-service" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/save-service" module="recrutement" action="mettreAJour" user="superadmin"></route>
+	<route url="manage/delete-service" module="recrutement" action="supprimerExcept" user="superadmin"></route>
+	<route url="manage/entreprise_services" module="recrutement" action="lister" user="entreprise"></route>
+	<route url="manage/entreprise_service" module="recrutement" action="voirDetail" user="entreprise"></route>
+	<route url="manage/create-entreprise_service" module="recrutement" action="afficherForm" user="entreprise"></route>
+	<route url="manage/update-entreprise_service" module="recrutement" action="afficherForm" user="entreprise"></route>
+	<route url="manage/save-entreprise_service" module="recrutement" action="mettreAJour" user="entreprise"></route>
+
+	<route url="manage/create-service_poste" module="recrutement" action="afficherForm" user="entreprise"></route>
+	<route url="manage/update-service_poste" module="recrutement" action="afficherForm" user="entreprise"></route>
+	<route url="manage/save-service_poste" module="recrutement" action="mettreAJour" user="entreprise"></route>
+
+	<route url="manage/postes" module="recrutement" action="lister" user="superadmin"></route>
+	<route url="manage/create-poste" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/update-poste" module="recrutement" action="afficherForm" user="superadmin"></route>
+	<route url="manage/save-poste" module="recrutement" action="mettreAJour" user="superadmin"></route>
+	<route url="manage/delete-poste" module="recrutement" action="supprimerExcept" user="superadmin"></route>
+
 	<route url="manage/formations" module="recrutement" action="lister" user="candidat"></route>
 	<route url="manage/create-formation" module="recrutement" action="afficherForm" user="candidat"></route>
 	<route url="manage/update-formation" module="recrutement" action="afficherForm" user="candidat"></route>
