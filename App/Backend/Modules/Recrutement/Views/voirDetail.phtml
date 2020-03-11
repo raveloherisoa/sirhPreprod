@@ -235,7 +235,7 @@
         </div>
       <?php endif; ?>
 
-      <?php if($url == "niveau_entretien" && !empty($data)): extract($data); $pageTitle = "Service d'entretien : " . $niveauEntretien->getService(); ?>
+      <?php if($url == "niveau_entretien" && !empty($data)): extract($data); $pageTitle = "Niveau d'entretien : " . $niveauEntretien->getService(); ?>
         <?php $_SESSION['variable']['idNiveauEntretien'] = $niveauEntretien->getIdNiveauEntretien(); ?>
         <div class="row">
           <div class="col-md-2">
@@ -336,13 +336,64 @@
           </div>
         </div>
       <?php endif; ?>
-      <!-- DOMAINE -->
-
       
+      <?php if($url == "entreprise_service" && !empty($data)): extract($data); $pageTitle = "Service : " . $entrepriseService->getService(); ?>
+        <?php $_SESSION['variable']['idEntrepriseService'] = $entrepriseService->getIdEntrepriseService(); ?>
+        <div class="row">
+          <div class="col-md-2">
+            <a href="<?= HOST . "manage/entreprise_services"; ?>" class="btn btn-primary rounded-circle">
+              <i class="fas fa-arrow-left"></i>
+            </a>  
+          </div>
+          <div class="col-md-8">
+            <div class="row text-center">
+              <h4>Service : <?= $entrepriseService->getService(); ?></h4>&nbsp;
+              <a href="<?= HOST . "manage/update-update-entreprise_service?idEntrepriseService=" . $entrepriseService->getIdEntrepriseService(); ?>" class="btn btn-warning">
+                <i class="fas fa-edit"></i> 
+              </a>
+            </div>
+            <div class="row">
+              <select class="form-control span3 btn-info col-md-6" name="nomPoste" id="nomPoste">
+                <option class="text-center" value="">Ajouter un poste</option>
+                <?php foreach ($allPoste as $onePoste): ?>
+                  <option value="<?= $onePoste->getNomPoste(); ?>">
+                    <?= ucwords($onePoste->getNomPoste()); ?>
+                  </option>
+                <?php endforeach ?>
+                <option class="text-center" value="autre">Autre</option>
+              </select>
+            </div>
+            <div class="row">
+              <table class="table table-stiped table-scroll small-first-col">
+              <thead>
+                <tr>
+                  <th>Les postes existants dans ce service</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody id="tableSearch" class="body-half-screen">
+                <?php if(!empty($servicePostes)) : foreach ($servicePostes as $servicePoste) : ?>
+                <tr>
+                  <td>
+                      <?= ucwords($servicePoste->getPoste()); ?>
+                  </td>
+                  <td class="text-center">
+                    <a href="<?= HOST . "manage/update-service_poste?idServicePoste=" . $servicePoste->getIdServicePoste(); ?>" class="btn btn-warning">
+                      <i class="fas fa-edit"></i> 
+                    </a>
+                    <a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $servicePoste->getIdServicePoste(); ?>" data-name="<?= ucwords($servicePoste->getPoste()); ?>" data-url="delete-service_poste?getIdServicePoste=">
+                      <i class="fas fa-trash"></i>   
+                    </a>
+                  </td>
+                </tr>
+                <?php endforeach; endif;?>
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+      <?php endif; ?>
 
-      <!-- cv_candidat -->
-
-      
     </div>
  </section>
 
