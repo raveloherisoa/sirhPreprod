@@ -32,6 +32,7 @@
     use \Model\ManagerService;
     use \Model\ManagerPoste;
     use \Model\ManagerEntrepriseService;
+    use \Model\ManagerEntreprisePoste;
     use \Model\ManagerServicePoste;
 
     class ManagerModuleRecrutement extends DbManager
@@ -526,6 +527,25 @@
         }
 
         /** 
+         * Lister les postes d'une entreprise
+         * 
+         * @param array $parameters Critères des données à lister
+         * 
+         * @return array
+         */
+        public function listerEntreprisePostes()
+        {
+            $postes     = array();
+            $manager    = new ManagerEntreprise();
+            $entreprise = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
+            if (!empty($entreprise)) {
+                $manager  = new ManagerEntreprisePoste();
+                $postes = $manager->lister(['idEntreprise' => $entreprise->getIdEntreprise()]);
+            }
+            return $postes;
+        }
+
+        /** 
          * Lister les offres suggérés à un candidat
          *
          * @return array
@@ -936,20 +956,50 @@
          */
         public function afficherFormEntrepriseService($parameters)
         {
+            $resultat    = array();
             $manager     = new ManagerService();
             $allServices = $manager->lister();
             $manager     = new ManagerEntreprise();
             $entreprise  = $manager->chercher(['idEntreprise' => $_SESSION['user']['idEntreprise']]);
             $manager     = new ManagerEntrepriseService();
+            if (!empty($entreprise)) {
+                if (isset($parameters)) {
+                    $entrepriseService = $manager->chercher($parameters);
+                } else {
+                    $entrepriseService = $manager->initialiser();
+                } 
+                $resultat = [
+                    "entreprise"        => $entreprise,
+                    "allServices"       => $allServices,
+                    "entrepriseService" => $entrepriseService
+                ];
+            }
+            return $resultat;
+        } 
+
+        /** 
+         * Afficher la formulaire d'un poste d'une entreprise
+         * 
+         * @param array $parameters Les données à récupérer
+         *
+         * @return Object
+         */
+        public function afficherFormEntreprisePoste($parameters)
+        {
+            $manager    = new ManagerPoste();
+            $allPostes  = $manager->lister();
+            $manager    = new ManagerEntreprise();
+            $entreprise = $manager->chercher(['idEntreprise' => $_SESSION['user']['idEntreprise']]);
+            $manager    = new ManagerEntreprisePoste();
             if (isset($parameters)) {
-                $entrepriseService = $manager->chercher($parameters);
+                $entreprisePoste = $manager->chercher($parameters);
             } else {
-                $entrepriseService = $manager->initialiser();
+                $entreprisePoste = $manager->initialiser();
             } 
             return [
-                "entreprise"        => $entreprise,
-                "allServices"       => $allServices,
-                "entrepriseService" => $entrepriseService
+                "entreprise"      => $entreprise,
+                "allPostes"       => $allPostes,
+                "entreprisePoste" => $entreprisePoste
             ];
         } 
 
@@ -962,12 +1012,22 @@
          */
         public function afficherFormServicePoste($parameters)
         {
-            $manager     = new ManagerServicePoste();
+            $manager = new ManagerEntreprise();
+            $entreprise = $manager->chercher(['idEntreprise' => $_SESSION['user']['idEntreprise']]);          
+            $manager = new ManagerServicePoste();
             if (isset($parameters)) {
-                return $manager->chercher($parameters);
+                $servicePoste = $manager->chercher($parameters);
             } else {
-                return $manager->initialiser();
+                $servicePoste = $manager->initialiser();
             } 
+            $manager   = new ManagerEntreprisePoste();
+            $allPostes = $manager->lister(['idEntreprise' => $entreprise->getIdEntreprise()]);
+            $entreprisePoste = $manager->chercher(['idEntreprisePoste' => $servicePoste->getIdEntreprisePoste()]);
+            return [
+                "entreprisePoste" => $entreprisePoste,
+                "servicePoste"    => $servicePoste,
+                "allPostes"       => $allPostes
+            ];
         } 
 
         /** 
@@ -1016,6 +1076,8 @@
             $niveauxEtudes      = $manager->lister();
             $manager            = new ManagerPersonnalite();
             $personnalites      = $manager->lister();
+            /*$manager            = new ManagerServicePoste();
+            $allPostes          = $manager->lister();*/
             return [ 
                 'entreprise'         => $entreprise, 
                 'offre'              => $offre, 
@@ -1402,6 +1464,7 @@
          */
         public function mettreAJourService($parameters)
         {
+            $parameters['nomService'] = strtolower($parameters['nomService']);
             $manager = new ManagerService();
             if (reset($parameters) == "") {
                 return $manager->ajouter($parameters);
@@ -1419,6 +1482,7 @@
          */
         public function mettreAJourPoste($parameters)
         {
+            $parameters['nomPoste'] = strtolower($parameters['nomPoste']);
             $manager = new ManagerPoste();
             if (reset($parameters) == "") {
                 return $manager->ajouter($parameters);
@@ -1696,12 +1760,55 @@
         public function mettreAJourEntrepriseService($parameters)
         {
             unset($parameters['nomService']);
-            $manager = new ManagerEntrepriseService();
-            if (reset($parameters) == "") {
-                return $manager->ajouter($parameters);
-            } else {
-                return $manager->modifier($parameters);
+            $parameters['service'] = strtolower($parameters['service']);
+            $manager = new ManagerEntreprise();
+            $entreprise = $manager->chercher(['idEntreprise' => $_SESSION['user']['idEntreprise']]);
+            if (!empty($entreprise)) {
+                $manager = new ManagerEntrepriseService();
+                $exist = $manager->chercher(['service' => $parameters['service'], 'idEntreprise' => $entreprise->getIdEntreprise()]);
+                if (empty($exist)) {
+                    if (reset($parameters) == "") {
+                        $manager->ajouter($parameters);
+                        $_SESSION['info']['success'] = "Service ajouté avec succès";
+                    } else {
+                        $manager->modifier($parameters);
+                        $_SESSION['info']['success'] = "Service modifié avec succès";
+                    }
+                } else {
+                    $_SESSION['info']['danger'] = ucfirst($parameters['service']) . " est déjà dans la liste";
+                }
             }
+        } 
+
+        /** 
+         * Mettre à jour un poste d'une entreprise
+         * 
+         * @param array $parameters Les données à mettre à jour
+         *
+         * @return Object
+         */
+        public function mettreAJourEntreprisePoste($parameters)
+        {
+            unset($parameters['nomPoste']);
+            $parameters['poste'] = strtolower($parameters['poste']);
+            $manager = new ManagerEntreprise();
+            $entreprise = $manager->chercher(['idEntreprise' => $_SESSION['user']['idEntreprise']]);
+            if (!empty($entreprise)) {
+                $manager = new ManagerEntreprisePoste();
+                $exist = $manager->chercher(['poste' => $parameters['poste'], 'idEntreprise' => $entreprise->getIdEntreprise()]);
+                if (empty($exist)) {
+                    if (reset($parameters) == "") {
+                        $manager->ajouter($parameters);
+                        $_SESSION['info']['success'] = "Poste ajouté avec succès";
+                    } else {
+                        $manager->modifier($parameters);
+                        $_SESSION['info']['success'] = "Poste modifié avec succès";
+                    }
+                } else {
+                    $_SESSION['info']['danger'] = ucfirst($parameters['poste']) . " est déjà dans la liste";
+                }
+            }
+            
         } 
 
         /** 
@@ -1786,9 +1893,29 @@
         public function mettreAJourServicePoste($parameters)
         {
             $parameters['idEntrepriseService'] = $_SESSION['variable']['idEntrepriseService'];
-            echo "<pre>";
-            var_dump($parameters);
-            exit();
+            if ($parameters['idEntreprisePoste'] == "autre") {
+                $manager = new ManagerEntreprisePoste();
+                $exist = $manager->chercher(['poste' => strtolower($parameters['poste']), 'idEntreprise' => $_SESSION['user']['idEntreprise']]);
+                if (empty($exist)) {
+                    $exist = $manager->ajouter(['poste' => strtolower($parameters['poste']), 'idEntreprise' => $_SESSION['user']['idEntreprise']]);
+                    $parameters['idEntreprisePoste'] = $exist->getIdEntreprisePoste();
+                }
+            }
+            unset($parameters['poste']);
+            $manager = new ManagerServicePoste();
+            $exist = $manager->chercher(['idEntrepriseService' => $parameters['idEntrepriseService'], 'idEntreprisePoste' => $parameters['idEntreprisePoste']]);
+            if (empty($exist)) {
+                if (reset($parameters) == "") {
+                    $manager->ajouter($parameters);
+                    $_SESSION['info']['success'] = "Poste ajouté avec succès";
+                } else {
+                    $manager->modifier($parameters);
+                    $_SESSION['info']['success'] = "Poste modifié avec succès";
+                }
+            } else {
+                $_SESSION['info']['danger'] = "Le poste est déjà dans la liste";
+            }
+            
         }
 
         /** 
@@ -1984,20 +2111,28 @@
          */
         public function voirDetailEntrepriseService($parameters)
         {
-            $servicePostes = "";
-            $manager = new ManagerPoste();
-            $allPoste = $manager->lister();
+            $resultat = "";
+            $tabPoste = array();
             $manager = new ManagerEntrepriseService();
             $entrepriseService = $manager->chercher($parameters);
             if (!empty($entrepriseService)) {
                 $manager = new ManagerServicePoste();
                 $servicePostes = $manager->lister(['idEntrepriseService' => $entrepriseService->getIdEntrepriseService()]);
+                if (!empty($servicePostes)) {
+                    foreach ($servicePostes as $servicePoste) {
+                        $manager = new ManagerEntreprisePoste();
+                        $tabPoste[] = [
+                            "entreprisePoste" => $manager->chercher(['idEntreprisePoste' => $servicePoste->getIdEntreprisePoste()]),
+                            "servicePoste"     => $servicePoste
+                        ];
+                    }
+                }
+                $resultat = [
+                    "entrepriseService" => $entrepriseService,
+                    "entreprisePostes"  => $tabPoste
+                ];
             } 
-            return [
-                "allPoste"          => $allPoste,
-                "entrepriseService" => $entrepriseService,
-                "servicePostes"     => $servicePostes
-            ];
+            return $resultat;
         }
 
         /** 

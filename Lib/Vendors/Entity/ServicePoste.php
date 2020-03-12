@@ -14,7 +14,7 @@
 	{
 		private $idServicePoste;
 		private $idEntrepriseService;
-		private $poste;
+		private $idEntreprisePoste;
 		
 		/** 
 		 * Initialisation d'un ServicePoste
@@ -68,9 +68,9 @@
 			return $this->idEntrepriseService;
 		}
 
-		public function getPoste()
+		public function getIdEntreprisePoste()
 		{
-			return $this->poste;
+			return $this->idEntreprisePoste;
 		}
 
 	// Seters
@@ -84,9 +84,9 @@
 			$this->idEntrepriseService = $idEntrepriseService;
 		}
 
-		public function setPoste($poste)
+		public function setIdEntreprisePoste($idEntreprisePoste)
 		{
-			$this->poste = $poste;
+			$this->idEntreprisePoste = $idEntreprisePoste;
 		}
 		
 	}

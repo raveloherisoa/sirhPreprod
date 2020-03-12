@@ -152,6 +152,13 @@ $(document).ready(function(){
 				$("#date-message").html("<ul><li>Date non valide</li></ul>");
 				return false;
 			}
+		} else if (pathname == "/manage/create-service_poste" || pathname == "/manage/update-service_poste") {
+			if ($('#block-entreprisePoste:visible').length != 0) {
+				if ($('#poste').val() == "") {
+					$("#poste-message").html("<ul><li>Veuillez séléctionner ou saisir le poste</li><ul>");
+					return false;
+				}
+			}
 		} 
 	});
 
@@ -159,6 +166,13 @@ $(document).ready(function(){
 		if ($("#nomService").val() != "") {
 			$("#service").val($("#nomService").val());
 			$("#nomService").val("");
+		}
+	});
+
+	$("#nomPoste").click(function(){
+		if ($("#nomPoste").val() != "") {
+			$("#poste").val($("#nomPoste").val());
+			$("#nomPoste").val("");
 		}
 	});
 
@@ -202,6 +216,14 @@ $(document).ready(function(){
 		}
 	});
 
+	$("#idEntreprisePoste").click(function(){
+		if ($("#idEntreprisePoste").val() == "autre") {
+			$('#block-entreprisePoste').show();					
+		} else {
+			$('#block-entreprisePoste').hide();
+		}
+	});
+
 	$("#idDomaine").change(function(){
 		$('#idDomaine-message').html('');
 	});
@@ -224,6 +246,10 @@ $(document).ready(function(){
 
 	$("#niveauExperience").click(function(){
 		$('#niveauExperience-message').html('');
+	});
+
+	$("#poste").click(function(){
+		$('#poste-message').html('');
 	});
 
 	$("#emails").hover(function(){

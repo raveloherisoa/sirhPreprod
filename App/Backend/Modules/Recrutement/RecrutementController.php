@@ -97,6 +97,8 @@
 				$redirect = "entretiens?idNiveauEntretien=" . $result->getIdNiveauEntretien();
 			} else if ((isset($_SESSION['variable']['idNiveauEntretien']) && $url[1] == "interlocuteur") || $url[1] == "interlocuteur_niveau_entretien") {
 				$redirect = "niveau_entretien?idNiveauEntretien=" . $_SESSION['variable']['idNiveauEntretien'];
+			} else if (isset($_SESSION['variable']['idEntrepriseService']) && $url[1] == "service_poste") {
+				$redirect = "entreprise_service?idEntrepriseService=" . $_SESSION['variable']['idEntrepriseService'];
 			} else  {
 				$redirect = $url[1] . "s";
 			} 

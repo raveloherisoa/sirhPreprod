@@ -25,7 +25,8 @@
         public function lister($attributes) 
         {
             $entrepriseServices = array();
-            $resultats          = $this->findAll('entreprise_service', $attributes);
+            $string             = " ORDER BY service ASC";
+            $resultats          = $this->findAll('entreprise_service', $attributes, $string);
             if (!empty($resultats)) {
                 foreach ($resultats as $resultat) {
                     $entrepriseService    = new entrepriseService($resultat);

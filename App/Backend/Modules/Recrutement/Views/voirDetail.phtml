@@ -340,28 +340,24 @@
       <?php if($url == "entreprise_service" && !empty($data)): extract($data); $pageTitle = "Service : " . $entrepriseService->getService(); ?>
         <?php $_SESSION['variable']['idEntrepriseService'] = $entrepriseService->getIdEntrepriseService(); ?>
         <div class="row">
-          <div class="col-md-2">
+          <div class="col-md-1">
             <a href="<?= HOST . "manage/entreprise_services"; ?>" class="btn btn-primary rounded-circle">
               <i class="fas fa-arrow-left"></i>
             </a>  
           </div>
-          <div class="col-md-8">
+          <div class="col-md-10">
             <div class="row text-center">
               <h4>Service : <?= $entrepriseService->getService(); ?></h4>&nbsp;
-              <a href="<?= HOST . "manage/update-update-entreprise_service?idEntrepriseService=" . $entrepriseService->getIdEntrepriseService(); ?>" class="btn btn-warning">
+              <a href="<?= HOST . "manage/update-entreprise_service?idEntrepriseService=" . $entrepriseService->getIdEntrepriseService(); ?>" class="btn btn-warning">
                 <i class="fas fa-edit"></i> 
               </a>
             </div>
             <div class="row">
-              <select class="form-control span3 btn-info col-md-6" name="nomPoste" id="nomPoste">
-                <option class="text-center" value="">Ajouter un poste</option>
-                <?php foreach ($allPoste as $onePoste): ?>
-                  <option value="<?= $onePoste->getNomPoste(); ?>">
-                    <?= ucwords($onePoste->getNomPoste()); ?>
-                  </option>
-                <?php endforeach ?>
-                <option class="text-center" value="autre">Autre</option>
-              </select>
+              <div class="col-md-6">
+                <a href="<?= HOST . "manage/create-service_poste";?>" class="btn btn-primary" id="add-btn">
+                  <i class="fas fa-plus"></i> Ajouter un poste
+                </a>
+              </div>
             </div>
             <div class="row">
               <table class="table table-stiped table-scroll small-first-col">
@@ -372,16 +368,16 @@
                 </tr>
               </thead>
               <tbody id="tableSearch" class="body-half-screen">
-                <?php if(!empty($servicePostes)) : foreach ($servicePostes as $servicePoste) : ?>
+                <?php if(!empty($entreprisePostes)) : foreach ($entreprisePostes as $entreprisePoste) : extract($entreprisePoste); ?>
                 <tr>
                   <td>
-                      <?= ucwords($servicePoste->getPoste()); ?>
+                      <?= ucwords($entreprisePoste->getPoste()); ?>
                   </td>
                   <td class="text-center">
-                    <a href="<?= HOST . "manage/update-service_poste?idServicePoste=" . $servicePoste->getIdServicePoste(); ?>" class="btn btn-warning">
-                      <i class="fas fa-edit"></i> 
+                    <a href="<?= HOST . 'manage/update-service_poste?idServicePoste=' . $servicePoste->getIdServicePoste();?>" class="btn btn-warning">
+                      <i class="fas fa-edit"></i>
                     </a>
-                    <a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $servicePoste->getIdServicePoste(); ?>" data-name="<?= ucwords($servicePoste->getPoste()); ?>" data-url="delete-service_poste?getIdServicePoste=">
+                    <a href="#" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="<?= $servicePoste->getIdServicePoste(); ?>" data-name="<?= ucwords($entreprisePoste->getPoste()); ?>" data-url="delete-service_poste?idServicePoste=">
                       <i class="fas fa-trash"></i>   
                     </a>
                   </td>

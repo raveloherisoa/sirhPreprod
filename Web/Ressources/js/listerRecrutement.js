@@ -2,7 +2,7 @@ $(document).on("click", ".delete", function () {
     var id   = $(this).data('id');
     var name = $(this).data('name');
     var url  = $(this).data('url');
-    $('.modal-body #text-confirmation').text('Voulez-vous vraiment supprimer ' + name + ' ?');
+    $('.modal-body #text-confirmation').text('Voulez-vous vraiment supprimer "' + name + '" ?');
     document.getElementById('action-delete').href = url + id;
 });
 
