@@ -25,7 +25,7 @@
         public function lister($parameters = null) 
         {
             $offres    = array();
-            $string    = " ORDER BY dateLimite DESC";
+            $string    = " ORDER BY dateEmission DESC";
             $resultats = $this->findAll('offre', $parameters, $string);
             if (!empty($resultats)) {
                 foreach ($resultats as $resultat) {

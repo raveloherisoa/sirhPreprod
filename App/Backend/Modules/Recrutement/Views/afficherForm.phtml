@@ -272,164 +272,177 @@
 		                  	</div>
 		                </div>
 		                <div class="row">
-		                    <div class="col-md-3 block-div">
-		                      <div class="form-group hidden">
-		                        <input class="form-control" id="idOffre" name="idOffre" type="number" value="<?= $offre->getIdOffre();?>">
-		                      </div>
-		                      <div class="form-group hidden">
-		                          <input class="form-control" id="idEntreprise" name="idEntreprise" type="number" value="<?= $entreprise->getIdEntreprise();?>">
-		                      </div>
-		                      <div class="form-group form-inline hidden">
-		                        <label class="">Date d'émission</label>
-		                        <input class="form-control" id="dateEmission" name="dateEmission" type="date" value="<?php if($offre->getDateEmission() == "") { echo date("Y-m-d"); } else { echo $offre->getDateEmission(); } ?>">
-		                      </div>
-		                      <div class="form-group">
-		                        <label class="label-input">Poste</label>
-		                        <input class="form-control focus_activated" id="poste" name="poste" type="text" value="<?= $offre->getPoste();?>" required="required" data-validation-required-message="Veuillez entrer le poste *" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïâàùç |'-]*" data-validation-regex-message="Caractères non valide *">
-		                        <p class="help-block text-danger"></p>
-		                      </div>
-		                      <div class="form-group">
-		                        <label class="label-input">Mission</label>
-		                        <textarea class="form-control focus_activated" id="mission" name="mission" required="required" data-validation-required-message="Veuillez entrer le mission *" data-validation-regex-regex="^[0-9a-zA-Z'_éèêëôöîïàç |\n|-]*" data-validation-regex-message="Caractères non valide *"><?= htmlentities($offre->getMission());?></textarea>
-		                        <p class="help-block text-danger"></p>
-		                      </div>
-		                      <div class="form-group">
-		                        <label class="label-input">Type de compensation</label>
-		                        <input class="form-control focus_activated" id="typeCompensation" name="typeCompensation" type="text" value="<?= $offre->getTypeCompensation();?>" required="required" data-validation-required-message="Veuillez entrer le type de compensation *" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïâàùç |'-]*" data-validation-regex-message="Caractères non valide *">
-		                        <p class="help-block text-danger"></p>
-		                      </div>
-		                      <div class="form-group">
-		                        <label class="label-input">Date limite de candidature</label>
-		                        <label for="datepicker">
-					                <input class="form-control datepicker focus_activated" id="datepickerLimite" type="text" value="<?php if($offre->getDateLimite() != "") { $date = explode('-', $offre->getDateLimite()); echo $date[2] . "/" . $date[1] . "/" . $date[0];}  ?>" autocomplete="off">
-				              	</label>
-					             <input class="form-control hidden" id="dateLimite" name="dateLimite" type="date" required="required" data-validation-required-message="Veuillez entrer la date limite">
-					             <p class="help-block text-danger" id="dateLimite-message"></p>
-		                      </div>
+		                    <div class="col-md-4 block-div">
+		                      	<div class="form-group hidden">
+		                        	<input class="form-control" id="idOffre" name="idOffre" type="number" value="<?= $offre->getIdOffre();?>">
+		                      	</div>
+		                      	<div class="form-group hidden">
+		                          	<input class="form-control" id="idEntreprise" name="idEntreprise" type="number" value="<?= $entreprise->getIdEntreprise();?>">
+		                      	</div>
+		                      	<div class="form-group form-inline hidden">
+		                        	<label class="">Date d'émission</label>
+		                        	<input class="form-control" id="dateEmission" name="dateEmission" type="date" value="<?php if($offre->getDateEmission() == "") { echo date("Y-m-d"); } else { echo $offre->getDateEmission(); } ?>">
+		                      	</div>
+		                     	<div class="form-group">
+		                        	<label class="label-input">Poste</label>
+			                        <select  class="form-control span3 focus_activated" name="idEntreprisePoste" id="idEntreprisePoste" required="required" data-validation-required-message="Veuillez choisir un poste">
+			                          <option class="text-center" value="">__Choisir__</option>
+			                          <?php foreach($postes as $poste): ?>
+			                            <option 
+			                              <?php if ($poste->getIdEntreprisePoste() == $offre->getIdEntreprisePoste()) { echo "selected"; } ?> value="<?= $poste->getIdEntreprisePoste(); ?>">
+			                              <?= ucfirst($poste->getPoste()); ?>
+			                            </option>
+			                          <?php endforeach; ?>
+			                          <option class="text-center" value="autre">Autre</option>
+			                        </select>
+			                        <p class="help-block text-danger"></p>
+		                      	</div>
+				                <div class="form-group hidden" id="block-entreprisePoste">
+				                  	<input class="form-control focus_activated" id="poste" name="poste" type="text" value="" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïâàùç |'-]*" data-validation-regex-message="Caractères non valide *" placeholder="Saisir le poste">
+		                            <p class="help-block text-danger" id="poste-message"></p>
+				                </div>	
+		                      	<div class="form-group">
+			                        <label class="label-input">Mission</label>
+			                        <textarea class="form-control focus_activated" id="mission" name="mission" required="required" data-validation-required-message="Veuillez entrer le mission *" data-validation-regex-regex="^[0-9a-zA-Z'_éèêëôöîïàç |\n|-]*" data-validation-regex-message="Caractères non valide *"><?= htmlentities($offre->getMission());?></textarea>
+			                        <p class="help-block text-danger"></p>
+		                      	</div>
+		                      	<div class="form-group">
+			                        <label class="label-input">Type de compensation</label>
+			                        <input class="form-control focus_activated" id="typeCompensation" name="typeCompensation" type="text" value="<?= $offre->getTypeCompensation();?>" required="required" data-validation-required-message="Veuillez entrer le type de compensation *" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïâàùç |'-]*" data-validation-regex-message="Caractères non valide *">
+			                        <p class="help-block text-danger"></p>
+		                      	</div>
+		                      	<div class="form-group">
+			                        <label class="label-input">Date limite de candidature</label>
+			                        <label for="datepicker">
+						                <input class="form-control datepicker focus_activated" id="datepickerLimite" type="text" value="<?php if($offre->getDateLimite() != "") { $date = explode('-', $offre->getDateLimite()); echo $date[2] . "/" . $date[1] . "/" . $date[0];}  ?>" autocomplete="off">
+					              	</label>
+					             	<input class="form-control hidden" id="dateLimite" name="dateLimite" type="date" required="required" data-validation-required-message="Veuillez entrer la date limite">
+					             	<p class="help-block text-danger" id="dateLimite-message"></p>
+		                      	</div>
 		                    </div>
 		                    <div class="col-md-4 block-div">                        
-		                      <div class="form-group">
-		                        <label class="label-input">Sous domaine</label>
-		                        <select  class="form-control span3 focus_activated" name="idSousDomaine" id="idSousDomaine" required="required" data-validation-required-message="Veuillez choisir un sous domaine">
-		                          <option class="text-center" value="">__Choisir__</option>
-		                          <?php foreach($sousDomaines as $sousDomaine): ?>
-		                            <option 
-		                              <?php if ($sousDomaine->getIdSousDomaine() == $offre->getIdSousDomaine()) { echo "selected"; } ?> value="<?= $sousDomaine->getIdSousDomaine(); ?>">
-		                              <?= $sousDomaine->getNomSousDomaine(); ?>
-		                            </option>
-		                          <?php endforeach; ?>
-		                          <option class="text-center" value="autre">Autre</option>
-		                        </select>
-		                        <p class="help-block text-danger"></p>
-		                      </div>
-		                      <div class="form-group" id="block-sousDomaine">
-		                        <div class="form-group">
-		                        <label class="label-input">Domaine</label>
-		                          <select  class="form-control span3 focus_activated" name="idDomaine" id="idDomaine">
-		                            <option class="text-center" value="">-- Choisir --</option>
-		                            <?php foreach($domaines as $domaine): ?>
-		                              <option value="<?= $domaine->getIdDomaine(); ?>">
-		                                <?= $domaine->getNomdomaine(); ?>
-		                              </option>
-		                            <?php endforeach; ?>
-		                            <option class="text-center" value="autre">Autre</option>
-		                            </select>
-		                            <p class="help-block text-danger" id="idDomaine-message"></p>
-		                        </div>
-		                        <div class="form-group" id="block-domaine">
-		                            <input class="form-control focus_activated" id="nomDomaine" name="nomDomaine" type="text" value="" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïâàùç |'-]*" data-validation-regex-message="Caractères non valide *" placeholder="Saisir le domaine">
-		                            <p class="help-block text-danger" id="nomDomaine-message"></p>
-		                        </div>
-		                        <div class="form-group">
-		                            <input class="form-control focus_activated" id="nomSousDomaine" name="nomSousDomaine" type="text" value="" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïâàùç |'-]*" data-validation-regex-message="Caractères non valide *" placeholder="Saisir le sous domaine">
-		                            <p class="help-block text-danger" id="nomSousDomaine-message"></p>
-		                        </div>
-		                      </div>
-		                      <div class="form-group">
-		                        <label class="label-input">Contrat</label>
-		                        <select  class="form-control span3 focus_activated" name="idContrat" id="idContrat" required="required" data-validation-required-message="Veuillez choisir un contrat *">
-		                          <option class="text-center" value="">-- Choisir --</option>
-		                          <?php foreach($contrats as $contrat): ?>
-		                          <option 
-		                            <?php if ($contrat->getIdContrat() == $offre->getIdContrat()) { echo "selected"; } ?> value="<?= $contrat->getIdContrat(); ?>">
-		                            <?= $contrat->getDesignation(); ?>
-		                           </option>
-		                          <?php endforeach; ?>
-		                          <option class="text-center" value="autre">Autre</option>
-		                        </select>
-		                        <p class="help-block text-danger"></p>
-		                      </div>
-		                      <div class="form-group" id="block-contrat">
-		                        <input class="form-control focus_activated" id="designation" name="designation" type="text" value="" data-validation-regex-regex="^[0-9a-zA-Z|éèêëôöîïàùç |'-]*" data-validation-regex-message="Caractères non valide *" placeholder="Saisir le contrat">
-		                        <p class="help-block text-danger" id="designation-message"></p>
-		                      </div>
-		                      <div class="form-group">
-		                        <label class="label-input">Niveau d'expérience</label>
-		                        <select  class="form-control span3 focus_activated" name="idNiveauExperience" id="idNiveauExperience" required="required" data-validation-required-message="Veuillez choisir un niveau d'expérience *">
-		                          <option class="text-center" value="">-- Choisir --</option>
-		                          <?php foreach($niveauxExperiences as $niveauExperience): ?>
-		                          <option 
-		                          <?php if ($niveauExperience->getIdNiveauExperience() == $offre->getIdNiveauExperience()) { echo "selected"; } ?> value="<?= $niveauExperience->getIdNiveauExperience(); ?>">
-		                          <?= $niveauExperience->getNiveau(); ?>
-		                          </option>
-		                          <?php endforeach; ?>
-		                          <option class="text-center" value="autre">Autre</option>
-		                        </select>
-		                        <p class="help-block text-danger"></p>
-		                      </div>
-		                      <div class="form-group" id="block-niveauExperience">
-		                          <input class="form-control focus_activated" id="niveauExperience" name="niveauExperience" type="text" value="" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïàùç |'-]*" data-validation-regex-message="Caractères non valide *" placeholder="Saisir le niveau d'expérience">
-		                          <p class="help-block text-danger" id="niveauExperience-message"></p>
-		                      </div>
-		                      <div class="form-group">
-		                          <label class="label-input">Niveau d'étude</label>
-		                          <select  class="form-control span3 focus_activated" name="idNiveauEtude" id="idNiveauEtude" required="required" data-validation-required-message="Veuillez choisir un niveau d'étude *">
-		                            <option class="text-center" value="">-- Choisir --</option>
-		                            <?php foreach($niveauxEtudes as $niveauEtude): ?>
-		                            <option 
-		                              <?php if ($niveauEtude->getIdNiveauEtude() == $offre->getIdNiveauEtude()) { echo "selected"; } ?> value="<?= $niveauEtude->getIdNiveauEtude(); ?>">
-		                              <?= $niveauEtude->getNiveau(); ?>
-		                            </option>
-		                            <?php endforeach; ?>                        
-		                            <option class="text-center" value="autre">Autre</option>
-		                          </select>
-		                          <p class="help-block text-danger"></p>
-		                      </div>
-		                      <div class="form-group" id="block-niveauEtude">
-		                          <input class="form-control focus_activated" id="niveauEtude" name="niveau" type="text" value="" data-validation-regex-regex="^[0-9a-zA-Z|éèêëôöîïàùç |+]*" data-validation-regex-message="Caractères non valide *">
-		                          <p class="help-block text-danger" id="niveauEtude-message"></p>
-		                      </div>
+		                      	<div class="form-group">
+			                        <label class="label-input">Sous domaine</label>
+			                        <select  class="form-control span3 focus_activated" name="idSousDomaine" id="idSousDomaine" required="required" data-validation-required-message="Veuillez choisir un sous domaine">
+			                          <option class="text-center" value="">__Choisir__</option>
+			                          <?php foreach($sousDomaines as $sousDomaine): ?>
+			                            <option 
+			                              <?php if ($sousDomaine->getIdSousDomaine() == $offre->getIdSousDomaine()) { echo "selected"; } ?> value="<?= $sousDomaine->getIdSousDomaine(); ?>">
+			                              <?= $sousDomaine->getNomSousDomaine(); ?>
+			                            </option>
+			                          <?php endforeach; ?>
+			                          <option class="text-center" value="autre">Autre</option>
+			                        </select>
+			                        <p class="help-block text-danger"></p>
+		                      	</div>
+		                      	<div class="form-group" id="block-sousDomaine">
+			                        <div class="form-group">
+				                        <label class="label-input">Domaine</label>
+			                          	<select  class="form-control span3 focus_activated" name="idDomaine" id="idDomaine">
+			                            	<option class="text-center" value="">-- Choisir --</option>
+			                            	<?php foreach($domaines as $domaine): ?>
+			                              	<option value="<?= $domaine->getIdDomaine(); ?>">
+			                                <?= $domaine->getNomdomaine(); ?>
+			                              	</option>
+			                            	<?php endforeach; ?>
+			                            	<option class="text-center" value="autre">Autre</option>
+			                            </select>
+			                            <p class="help-block text-danger" id="idDomaine-message"></p>
+		                        	</div>
+			                        <div class="form-group" id="block-domaine">
+			                            <input class="form-control focus_activated" id="nomDomaine" name="nomDomaine" type="text" value="" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïâàùç |'-]*" data-validation-regex-message="Caractères non valide *" placeholder="Saisir le domaine">
+			                            <p class="help-block text-danger" id="nomDomaine-message"></p>
+			                        </div>
+			                        <div class="form-group">
+			                            <input class="form-control focus_activated" id="nomSousDomaine" name="nomSousDomaine" type="text" value="" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïâàùç |'-]*" data-validation-regex-message="Caractères non valide *" placeholder="Saisir le sous domaine">
+			                            <p class="help-block text-danger" id="nomSousDomaine-message"></p>
+			                        </div>
+		                      	</div>
+		                      	<div class="form-group">
+			                        <label class="label-input">Contrat</label>
+			                        <select  class="form-control span3 focus_activated" name="idContrat" id="idContrat" required="required" data-validation-required-message="Veuillez choisir un contrat *">
+			                          	<option class="text-center" value="">-- Choisir --</option>
+			                          	<?php foreach($contrats as $contrat): ?>
+			                          	<option 
+			                            <?php if ($contrat->getIdContrat() == $offre->getIdContrat()) { echo "selected"; } ?> value="<?= $contrat->getIdContrat(); ?>">
+			                            <?= $contrat->getDesignation(); ?>
+			                           	</option>
+			                          	<?php endforeach; ?>
+			                          	<option class="text-center" value="autre">Autre</option>
+			                        </select>
+			                        <p class="help-block text-danger"></p>
+		                      	</div>
+		                      	<div class="form-group" id="block-contrat">
+			                        <input class="form-control focus_activated" id="designation" name="designation" type="text" value="" data-validation-regex-regex="^[0-9a-zA-Z|éèêëôöîïàùç |'-]*" data-validation-regex-message="Caractères non valide *" placeholder="Saisir le contrat">
+			                        <p class="help-block text-danger" id="designation-message"></p>
+		                      	</div>
+		                      	<div class="form-group">
+			                        <label class="label-input">Niveau d'expérience</label>
+			                        <select  class="form-control span3 focus_activated" name="idNiveauExperience" id="idNiveauExperience" required="required" data-validation-required-message="Veuillez choisir un niveau d'expérience *">
+			                          	<option class="text-center" value="">-- Choisir --</option>
+			                          	<?php foreach($niveauxExperiences as $niveauExperience): ?>
+			                          	<option 
+			                          	<?php if ($niveauExperience->getIdNiveauExperience() == $offre->getIdNiveauExperience()) { echo "selected"; } ?> value="<?= $niveauExperience->getIdNiveauExperience(); ?>">
+			                          	<?= $niveauExperience->getNiveau(); ?>
+			                          	</option>
+			                          	<?php endforeach; ?>
+			                          	<option class="text-center" value="autre">Autre</option>
+			                        </select>
+			                        <p class="help-block text-danger"></p>
+		                      	</div>
+		                      	<div class="form-group" id="block-niveauExperience">
+		                          	<input class="form-control focus_activated" id="niveauExperience" name="niveauExperience" type="text" value="" data-validation-regex-regex="^[a-zA-Z|éèêëôöîïàùç |'-]*" data-validation-regex-message="Caractères non valide *" placeholder="Saisir le niveau d'expérience">
+		                          	<p class="help-block text-danger" id="niveauExperience-message"></p>
+		                      	</div>
+		                      	<div class="form-group">
+		                          	<label class="label-input">Niveau d'étude</label>
+		                          	<select  class="form-control span3 focus_activated" name="idNiveauEtude" id="idNiveauEtude" required="required" data-validation-required-message="Veuillez choisir un niveau d'étude *">
+		                            	<option class="text-center" value="">-- Choisir --</option>
+		                            	<?php foreach($niveauxEtudes as $niveauEtude): ?>
+		                            	<option 
+		                              	<?php if ($niveauEtude->getIdNiveauEtude() == $offre->getIdNiveauEtude()) { echo "selected"; } ?> value="<?= $niveauEtude->getIdNiveauEtude(); ?>">
+		                              	<?= $niveauEtude->getNiveau(); ?>
+		                            	</option>
+		                            	<?php endforeach; ?>                        
+		                            	<option class="text-center" value="autre">Autre</option>
+		                          	</select>
+		                          	<p class="help-block text-danger"></p>
+		                      	</div>
+		                      	<div class="form-group" id="block-niveauEtude">
+		                          	<input class="form-control focus_activated" id="niveauEtude" name="niveau" type="text" value="" data-validation-regex-regex="^[0-9a-zA-Z|éèêëôöîïàùç |+]*" data-validation-regex-message="Caractères non valide *">
+		                          	<p class="help-block text-danger" id="niveauEtude-message"></p>
+		                      	</div>
 		                    </div>
-		                    <div class="col-md-4 block-div">
-		                      <strong>Trait de personnalité</strong><br>
-		                      <div class="form-group trait-personnalite">
-		                        <?php foreach($personnalites as $personnalite):?>
-		                        <label class="text-left">
-		                        <input type="checkbox" name="qualite" value="<?= $personnalite->getQualite(); ?>"
-		                        <?php
-		                          $persos = explode('_', $offre->getPersonnalite());
-		                                foreach ($persos as $perso) {
-		                                  if ($personnalite->getQualite() == ucfirst($perso)) {
-		                                    echo "checked";
-		                                  }
-		                                }
-		                        ?>
-		                        >
-		                        <?= ucfirst($personnalite->getQualite()); ?>
-		                        </label><br>
-		                        <?php endforeach; ?>
-		                      </div>                  
-		                      <div class="form-group">
-		                        <input class="btn-warning" type="button" value="Autre personnalité" id="autre" >
-		                        <input class="form-control hidden" id="autrePersonnalite" name="autrePersonnalite" type="text">
-		                      </div>
-		                      <div class="form-group" id="block-personnalite"></div>
-		                      <div class="form-group">
-		                        <input class="form-control hidden" id="personnalite" name="personnalite" type="text" required="required" data-validation-required-message="Veuillez séléctionner au moins un trait de personnalité *" >
-		                        <p class="help-block text-warning"></p>
-		                      </div>
+		                    <div class="col-md-3 block-div">
+		                      	<strong>Trait de personnalité</strong><br>
+		                      	<div class="form-group trait-personnalite">
+		                        	<?php foreach($personnalites as $personnalite):?>
+		                        	<label class="text-left">
+		                        	<input type="checkbox" name="qualite" value="<?= $personnalite->getQualite(); ?>"
+			                        <?php
+			                          $persos = explode('_', $offre->getPersonnalite());
+			                                foreach ($persos as $perso) {
+			                                  if ($personnalite->getQualite() == ucfirst($perso)) {
+			                                    echo "checked";
+			                                  }
+			                                }
+			                        ?>
+			                        >
+			                        <?= ucfirst($personnalite->getQualite()); ?>
+			                        </label><br>
+			                        <?php endforeach; ?>
+		                      	</div>                  
+		                      	<div class="form-group">
+			                        <input class="btn-warning" type="button" value="Autre personnalité" id="autre" >
+			                        <input class="form-control hidden" id="autrePersonnalite" name="autrePersonnalite" type="text">
+		                      	</div>
+		                      	<div class="form-group" id="block-personnalite"></div>
+		                      	<div class="form-group">
+			                        <input class="form-control hidden" id="personnalite" name="personnalite" type="text" required="required" data-validation-required-message="Veuillez séléctionner au moins un trait de personnalité *" >
+			                        <p class="help-block text-warning"></p>
+		                      	</div>
 		                    </div>
-		                  </div>
+		                 </div>
 		            <?php endif; ?>
 
 		            <?php if ($url[1] == "entretien" && !empty($data)): extract($data); $pageTitle = "Enregistrement d'un entretien";?>

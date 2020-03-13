@@ -21,7 +21,7 @@
 		private $personnalite;  
 		private $dateEmission; 
 		private $dateLimite; 
-		private $poste;
+		private $idEntreprisePoste;
 		private $mission;
 		private $typeCompensation;
 
@@ -112,9 +112,9 @@
 			return $this->dateLimite;
 		}
 
-		public function getPoste()
+		public function getIdEntreprisePoste()
 		{
-			return $this->poste;
+			return $this->idEntreprisePoste;
 		}
 
 		public function getMission()
@@ -173,9 +173,9 @@
 			$this->dateLimite = $dateLimite;
 		}
 
-		public function setPoste($poste)
+		public function setIdEntreprisePoste($idEntreprisePoste)
 		{
-			$this->poste = $poste;
+			$this->idEntreprisePoste = $idEntreprisePoste;
 		} 
 
 		public function setMission($mission)

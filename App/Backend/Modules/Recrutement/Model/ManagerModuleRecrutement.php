@@ -232,7 +232,10 @@
                         $sousDomaine = $manager->chercher(['idSousDomaine' => $offre->getIdSousDomaine()]);
                         $manager     = new ManagerContrat();
                         $contrat     = $manager->chercher(['idContrat' => $offre->getIdContrat()]);
+                        $manager     = new ManagerEntreprisePoste();
+                        $poste       = $manager->chercher(['idEntreprisePoste' => $offre->getIdEntreprisePoste()]);
                         $tabOffre[]  = [
+                            'poste'       => $poste,
                             'offre'       => $offre, 
                             'sousDomaine' => $sousDomaine, 
                             'contrat'     => $contrat
@@ -1056,15 +1059,15 @@
          */
         public function afficherFormOffre($parameters)
         {
-            $manager    = new ManagerEntreprise();
-            $entreprise = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
-            $manager    = new ManagerOffre();
+            $manager                    = new ManagerEntreprise();
+            $entreprise                 = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
+            $manager                    = new ManagerOffre();
             if (isset($parameters)) {
                 $offre = $manager->chercher($parameters);
             } else {
                 $offre = $manager->initialiser();
             }
-            $manager            = new ManagerSousDomaine();
+             $manager            = new ManagerSousDomaine();
             $sousDomaines       = $manager->lister(null);
             $manager            = new ManagerDomaine();
             $domaines           = $manager->lister();
@@ -1076,8 +1079,8 @@
             $niveauxEtudes      = $manager->lister();
             $manager            = new ManagerPersonnalite();
             $personnalites      = $manager->lister();
-            /*$manager            = new ManagerServicePoste();
-            $allPostes          = $manager->lister();*/
+            $manager            = new ManagerEntreprisePoste();
+            $postes             = $manager->lister(['idEntreprise' => $entreprise->getIdEntreprise()]);
             return [ 
                 'entreprise'         => $entreprise, 
                 'offre'              => $offre, 
@@ -1086,8 +1089,9 @@
                 'contrats'           => $contrats, 
                 'niveauxExperiences' => $niveauxExperiences, 
                 'niveauxEtudes'      => $niveauxEtudes, 
-                'personnalites'      => $personnalites
-            ];
+                'personnalites'      => $personnalites,
+                'postes'             => $postes
+            ];          
         }
 
         /** 
@@ -1369,6 +1373,28 @@
         }
 
         /** 
+         * Vérifier l'éxistance du parametre poste
+         * 
+         * @param array $parameters Les paramètres à vérifier
+         *
+         * @return array 
+         */
+        private function verifierParamsPoste($parameters)
+        {
+            $poste = "";
+            if ($parameters['idEntreprisePoste'] == "autre" && $parameters['poste'] != "") {
+                $manager = new ManagerEntreprisePoste();
+                $poste   = $manager->chercher(['poste' => strtolower($parameters['poste']), 'idEntreprise' => $parameters['idEntreprise']]);
+                if (empty($poste)) {
+                    $poste = $manager->ajouter(['poste' => strtolower($parameters['poste']), 'idEntreprise' => $parameters['idEntreprise']]);
+                }
+                $parameters['idEntreprisePoste'] = $poste->getIdEntreprisePoste();    
+            }
+            unset($parameters['poste']);
+            return $parameters;
+        }
+
+        /** 
          * Mettre à jour un diplôme
          * 
          * @param array $parameters Les données à mettre à jour
@@ -1504,6 +1530,7 @@
             $parameters = $this->verifierParamsContrat($parameters); 
             $parameters = $this->verifierParamsNiveauExperience($parameters);
             $parameters = $this->verifierParamsNiveauEtude($parameters);
+            $parameters = $this->verifierParamsPoste($parameters);
             if (isset($parameters['autreQualite'])) {
                 unset($parameters['autreQualite']);
             }

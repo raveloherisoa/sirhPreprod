@@ -64,35 +64,41 @@ $(document).ready(function(){
 
 			if ($('#block-sousDomaine:visible').length != 0) {
 				if ($('#idDomaine').val() == "") {
-					$("#idDomaine-message").html("<ul><li>Veuillez choisir un domaine *</li><ul>");
+					$("#idDomaine-message").html("<ul><li>Veuillez choisir un domaine</li><ul>");
 					return false;
 				} 
 				if ($('#nomSousDomaine').val() == "") {
-					$("#nomSousDomaine-message").html("<ul><li>Veuillez séléctionner ou entrer un sous domaine *</li><ul>");
+					$("#nomSousDomaine-message").html("<ul><li>Veuillez séléctionner ou entrer un sous domaine</li><ul>");
 					return false;
 				}
 			}
 			if ($('#block-domaine:visible').length != 0) {
 				if ($('#nomDomaine').val() == "") {
-					$("#nomDomaine-message").html("<ul><li>Veuillez séléctionner ou entrer un domaine *</li><ul>");
+					$("#nomDomaine-message").html("<ul><li>Veuillez séléctionner ou entrer un domaine</li><ul>");
 					return false;
 				}
 			}
 			if ($('#block-contrat:visible').length != 0) {
 				if ($('#designation').val() == "") {
-					$("#designation-message").html("<ul><li>Veuillez séléctionner ou entrer un contrat *</li><ul>");
+					$("#designation-message").html("<ul><li>Veuillez séléctionner ou entrer un contrat</li><ul>");
 					return false;
 				}
 			}
 			if ($('#block-niveauExperience:visible').length != 0) {
 				if ($('#niveauExperience').val() == "" || $('#niveauExperience').val() == "0") {
-					$("#niveauExperience-message").html("<ul><li>Veuillez séléctionner ou entrer un niveau d'expérience *</li><ul>");
+					$("#niveauExperience-message").html("<ul><li>Veuillez séléctionner ou entrer un niveau d'expérience</li><ul>");
 					return false;
 				}
 			}
 			if ($('#block-niveauEtude:visible').length != 0) {
 				if ($('#niveauEtude').val() == "" || $('#niveauEtude').val() == "0") {
-					$("#niveauEtude-message").html("<ul><li>Veuillez séléctionner ou entrer votre niveau *</li><ul>");
+					$("#niveauEtude-message").html("<ul><li>Veuillez séléctionner ou entrer votre niveau</li><ul>");
+					return false;
+				}
+			}
+			if ($('#block-entreprisePoste:visible').length != 0) {
+				if ($('#poste').val() == "") {
+					$("#poste-message").html("<ul><li>Veuillez séléctionner ou saisir un poste</li><ul>");
 					return false;
 				}
 			}
@@ -155,7 +161,7 @@ $(document).ready(function(){
 		} else if (pathname == "/manage/create-service_poste" || pathname == "/manage/update-service_poste") {
 			if ($('#block-entreprisePoste:visible').length != 0) {
 				if ($('#poste').val() == "") {
-					$("#poste-message").html("<ul><li>Veuillez séléctionner ou saisir le poste</li><ul>");
+					$("#poste-message").html("<ul><li>Veuillez séléctionner ou saisir un poste</li><ul>");
 					return false;
 				}
 			}

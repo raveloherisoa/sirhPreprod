@@ -375,7 +375,7 @@
 						</tr>
 					</thead>
 					<tbody id="tableSearch" class="body-half-screen">
-						<?php if(!empty($data)) : extract($data); if(!empty($offres)): foreach ($offres as $offre):?>
+						<?php if(!empty($data)) : extract($data); if(!empty($offres)): foreach ($offres as $offre): ?>
 						<tr>
 							<td>
 					   			<strong>
@@ -386,7 +386,7 @@
 					   			</strong>
 					   			<ul>
 					   				<li>
-					   					 Poste : <?= ucfirst($offre['offre']->getPoste()); ?>
+					   					Poste : <?= ucfirst($offre['poste']->getPoste()); ?>
 					   				</li>
 					   				<li>
 					   					 Contrat : <?= $offre['contrat']->getDesignation(); ?>
