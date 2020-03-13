@@ -12,12 +12,7 @@
 
 	class Employe
 	{
-		private $idEmploye;
-<<<<<<< Updated upstream
-		private $idCandidat; 
-		private $idEntreprise;
-		private $statut;
-=======
+		private $idEmploye; 
 		private $idCompte; 
 		private $idEntreprise;
 		private $matricule;
@@ -45,7 +40,6 @@
 		private $cv;
 		private $lettreMotivation;
 		private $autreDossier;
->>>>>>> Stashed changes
 
 		/** 
 		 * Initialisation d'un Employe
@@ -94,37 +88,147 @@
 			return $this->idEmploye;
 		}
 
-		public function getIdCandidat()
+		public function getIdCompte()
 		{
-			return $this->idCandidat;
+			return $this->idCompte;
 		}
 
 		public function getIdEntreprise()
-<<<<<<< Updated upstream
-=======
 		{
 			return $this->idEntreprise;
 		}
 
 		public function getMatricule()
->>>>>>> Stashed changes
 		{
-			return $this->idEntreprise;
+			return $this->matricule;
 		}
 
-		public function getStatut()
+		public function getPhoto()
 		{
-			return $this->statut;
+			return $this->photo;
 		}
+
+		public function getCivilite()
+		{
+			return $this->civilite;
+		}
+
+		public function getNom()
+		{
+			return $this->nom;
+		}
+
+		public function getPrenom()
+		{
+			return $this->prenom;
+		}
+
+		public function getDateNaissance()
+		{
+			return $this->dateNaissance;
+		}
+
+		public function getLieuNaissance()
+		{
+			return $this->lieuNaissance;
+		}
+
+		public function getAdresse()
+		{
+			return $this->adresse;
+		}
+
+		public function getVille()
+		{
+			return $this->ville;
+		}
+
+		public function getContact()
+		{
+			return $this->contact;
+		}
+
+		public function getEmail()
+		{
+			return $this->email;
+		}
+
+		public function getPersonnalite()
+		{
+			return $this->personnalite;
+		}
+
+		public function getPoste()
+		{
+			return $this->poste;
+		}
+
+		public function getChefHierarchique()
+		{
+			return $this->chefHierarchique;
+		}
+
+		public function getNumeroCnaps()
+		{
+			return $this->numeroCnaps;
+		}
+
+		public function getStatutCnaps()
+		{
+			return $this->statutCnaps;
+		}
+
+		public function getOsie()
+		{
+			return $this->osie;
+		}
+
+		public function getAvanceSalaire()
+		{
+			return $this->avanceSalaire;
+		}
+
+		public function getAvanceSpeciale()
+		{
+			return $this->avanceSpeciale;
+		}
+
+		public function getCin()
+		{
+			return $this->cin;
+		}
+
+		public function getResidence()
+		{
+			return $this->residence;
+		}
+
+		public function getBulletin()
+		{
+			return $this->bulletin;
+		}
+
+		public function getCv()
+		{
+			return $this->cv;
+		}
+
+		public function getLettreMotivation()
+		{
+			return $this->lettreMotivation;
+		}
+
+		public function getAutreDossier()
+		{
+			return $this->autreDossier;
+		}
+
 	// Seters
 		public function setIdEmploye($idEmploye)
 		{
 			$this->idEmploye = $idEmploye;
 		}
 
-<<<<<<< Updated upstream
-		public function setIdCandidat($idCandidat)
-=======
 		public function setIdCompte($idCompte)
 		{
 			$this->idCompte = $idCompte;
@@ -246,19 +350,18 @@
 		}
 
 		public function setCv($cv)
->>>>>>> Stashed changes
 		{
 			$this->idCandidat = $idCandidat;
 		}
 
-		public function setIdEntreprise($idEntreprise)
+		public function setLettreMotivation($lettreMotivation)
 		{
-			$this->idEntreprise = $idEntreprise;
+			$this->lettreMotivation = $lettreMotivation;
 		}
 
-		public function setStatut($statut)
+		public function setAutreDossier($autreDossier)
 		{
-			$this->statut = $statut;
+			$this->autreDossier = $autreDossier;
 		}
 
 	}
