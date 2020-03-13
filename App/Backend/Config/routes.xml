@@ -170,6 +170,9 @@
 	<route url="manage/tableau_de_bord-entretien" module="recrutement" action="parametrerGraphe" user="entreprise"></route>
 	<route url="manage/tableau_de_bord-interlocuteur" module="recrutement" action="parametrerGraphe" user="entreprise"></route>
 
-	<route url="manage/register-employe" module="recrutement" action="enregistrerEmploye" user="entreprise"></route>
+	<route url="manage/banques" module="employe" action="lister" user="superadmin"></route>
+	<route url="manage/create-banque" module="employe" action="afficherForm" user="superadmin"></route>
+	<route url="manage/update-banque" module="employe" action="afficherForm" user="superadmin"></route>
+	<route url="manage/save-banque" module="employe" action="mettreAJour" user="superadmin"></route>
 
 </routes>

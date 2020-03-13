@@ -431,7 +431,10 @@
                     if (!empty($candidature) && $offre->getIdOffre() == $candidature->getIdOffre()) {
                         $manager     = new ManagerCandidat();
                         $candidat    = $manager->chercher(['idCandidat' => $candidature->getIdCandidat()]);
+                        $manager     = new ManagerEntreprisePoste();
+                        $poste       = $manager->chercher(['idEntreprisePoste' => $offre->getIdEntreprisePoste()]);
                         $resultats[] = [
+                            'poste'       => $poste,
                             'engagedPost' => $engagedPost,
                             'offre'       => $offre,
                             'candidat'    => $candidat,
@@ -469,9 +472,12 @@
                                 $manager   = new ManagerEntretien();
                                 $entretien = $manager->chercher(['idCandidature' => $candidature->getIdCandidature(), 'idNiveauEntretien' => $parameters['idNiveauEntretien']]);
                                 if (!empty($entretien)) {
-                                    $manager = new ManagerOffre();
-                                    $engagedPost  = $manager->getEngagedPoste(['idOffre' => $offre->getIdOffre()]);
+                                    $manager     = new ManagerOffre();
+                                    $engagedPost = $manager->getEngagedPoste(['idOffre' => $offre->getIdOffre()]);
+                                    $manager     = new ManagerEntreprisePoste();
+                                    $poste       = $manager->chercher(['idEntreprisePoste' => $offre->getIdEntreprisePoste()]);
                                     $resultats[] = [
+                                        'poste'       => $poste,
                                         'engagedPost' => $engagedPost,
                                         'offre'       => $offre,
                                         'candidat'    => $candidat,
@@ -1990,7 +1996,7 @@
             $offre       = $manager->chercher($parameters);
             $candidature = "";
             if (!empty($offre)) {
-                $manager  = new ManagerEntreprise();
+                $manager          = new ManagerEntreprise();
                 $entreprise       = $manager->chercher(['idEntreprise' => $offre->getIdEntreprise()]);
                 $manager          = new ManagerSousDomaine();
                 $sousDomaine      = $manager->chercher(['idSousDomaine' => $offre->getIdSousDomaine()]);
@@ -2002,6 +2008,8 @@
                 $niveauExperience = $manager->chercher(['idNiveauExperience' => $offre->getIdNiveauExperience()]);
                 $manager          = new ManagerNiveauEtude();
                 $niveauEtude      = $manager->chercher(['idNiveauEtude' => $offre->getIdNiveauEtude()]);
+                $manager          = new ManagerEntreprisePoste();
+                $poste            = $manager->chercher(['idEntreprisePoste' => $offre->getIdEntreprisePoste()]);
                 $manager          = new ManagerCandidature();
                 if ($_SESSION['compte']['identifiant'] == "candidat") {
                     $manager = new ManagerCandidat();
@@ -2018,7 +2026,8 @@
                     'contrat'          => $contrat, 
                     'niveauExperience' => $niveauExperience, 
                     'niveauEtude'      => $niveauEtude,
-                    'candidature'      => $candidature
+                    'candidature'      => $candidature,
+                    'poste'            => $poste
                 ];
             }
             return $resultat;

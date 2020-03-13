@@ -32,6 +32,7 @@
 		private $numeroCnaps;
 		private $statuCnaps;
 		private $osie;
+		private $typePaiement;
 		private $avanceSalaire;
 		private $avanceSpeciale;
 		private $cin;
@@ -183,6 +184,11 @@
 			return $this->osie;
 		}
 
+		public function getTypePaiement()
+		{
+			return $this->typePaiement;
+		}
+
 		public function getAvanceSalaire()
 		{
 			return $this->avanceSalaire;
@@ -322,6 +328,11 @@
 		public function setOsie($osie)
 		{
 			$this->osie = $osie;
+		}
+
+		public function setTypePaiement($typePaiement)
+		{
+			$this->typePaiement = $typePaiement;
 		}
 
 		public function setAvanceSalaire($avanceSalaire)

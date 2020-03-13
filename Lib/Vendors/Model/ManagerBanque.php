@@ -45,7 +45,7 @@
         }
 
         /** 
-         * Chercher un banque
+         * Chercher une banque
          *
          * @param array $parameters Critères des données à chercher
          *
@@ -73,7 +73,7 @@
         }
 
         /**
-         * Ajouter un banque
+         * Ajouter une banque
          *
          * @param array $parameters Les données à ajouter
          *
@@ -86,7 +86,7 @@
         }
 
         /**
-         * Modifier un banque
+         * Modifier une banque
          *
          * @param array $parameters Les données à modifier
          *
@@ -99,7 +99,7 @@
         }
 
         /**
-         * Supprimer un banque
+         * Supprimer une banque
          *
          * @param array $parameters Critères des données à supprimer
          *

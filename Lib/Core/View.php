@@ -51,7 +51,7 @@
 			} 
 			if (!file_exists($file)) {
 				$file = __DIR__ .'/../../Errors/404.phtml';
-			}			
+			}		
 			ob_start();
 	        include($file); 
 	        $pageContent = ob_get_clean();

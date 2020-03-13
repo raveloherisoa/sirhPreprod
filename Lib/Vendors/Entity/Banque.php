@@ -18,7 +18,7 @@
 		private $ville;
 		
 		/** 
-		 * Initialisation d'un Banque
+		 * Initialisation d'une Banque
 		 *
 		 * @param array $data Données à intialiser 
 		 *

@@ -6,7 +6,7 @@
 ?>
 <section class="page-section" id="back-section">
     <div class="container">
-      <?php if($url == "offre" && !empty($data)): extract($data); $pageTitle = "Offre : " . $offre->getPoste(); ?>
+      <?php if($url == "offre" && !empty($data)): extract($data); $pageTitle = "Offre : " . $poste->getPoste(); ?>
         <div class="row">
           <?php if ($_SESSION['compte']['identifiant'] == "entreprise"): ?>
             <a href="<?= HOST . "manage/offres"; ?>" class="btn btn-primary rounded-circle">
@@ -21,7 +21,7 @@
         </div>
         <div class="row offre-heading">
           <div class="col-lg-12 text-center">
-            <h2>Poste : <?= $offre->getPoste(); ?>
+            <h2>Poste : <?= $poste->getPoste(); ?>
               <?php if ($_SESSION['compte']['identifiant'] == "entreprise") : ?>                
                 <a href="<?= HOST . "manage/update-offre?idOffre=" . $offre->getIdOffre(); ?>" class="btn btn-warning">
                   <i class="far fa-edit"></i>  
