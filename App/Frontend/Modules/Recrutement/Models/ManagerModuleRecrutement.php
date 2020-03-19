@@ -25,6 +25,7 @@
     use \Model\ManagerOffre;
     use \Model\ManagerCandidature;
     use \Model\ManagerEntretien;
+    use \Model\ManagerEntreprisePoste;
 
     class ManagerModuleRecrutement extends DbManager
     {
@@ -49,12 +50,15 @@
                     $manager     = new Managercompte();
                     $compte      = $manager->chercher(['idCompte' => $entreprise->getIdCompte()]);
                     if ($compte->getStatut() == "active") {
-                        $manager     = new ManagerContrat();
-                        $contrat     = $manager->chercher(['idContrat' => $offre->getIdContrat()]);
+                        $manager = new ManagerContrat();
+                        $contrat = $manager->chercher(['idContrat' => $offre->getIdContrat()]);
+                        $manager = new ManagerEntreprisePoste();
+                        $poste   = $manager->chercher(['idEntreprisePoste' => $offre->getIdEntreprisePoste()]);
                         $tabOffres[] = [
                             'offre'       => $offre, 
                             'entreprise'  => $entreprise,
-                            'contrat'     => $contrat
+                            'contrat'     => $contrat,
+                            'poste'       => $poste
                         ];     
                     }                      
                 } 
@@ -80,10 +84,10 @@
             $offre       = $manager->chercher($parameters); 
             $candidature = "";
             if (!empty($offre)) {
-                $manager          = new ManagerEntreprise();
-                $entreprise       = $manager->chercher(['idEntreprise' => $offre->getIdEntreprise()]);
-                $manager          = new Managercompte();
-                $compte           = $manager->chercher(['idCompte' => $entreprise->getIdCompte()]);
+                $manager    = new ManagerEntreprise();
+                $entreprise = $manager->chercher(['idEntreprise' => $offre->getIdEntreprise()]);
+                $manager    = new Managercompte();
+                $compte     = $manager->chercher(['idCompte' => $entreprise->getIdCompte()]);
                 if ($compte->getStatut() == "active") {
                     $manager          = new ManagerSousDomaine();
                     $sousDomaine      = $manager->chercher(['idSousDomaine' => $offre->getIdSousDomaine()]);
@@ -95,10 +99,12 @@
                     $niveauExperience = $manager->chercher(['idNiveauExperience' => $offre->getIdNiveauExperience()]);
                     $manager          = new ManagerNiveauEtude();
                     $niveauEtude      = $manager->chercher(['idNiveauEtude' => $offre->getIdNiveauEtude()]);
+                    $manager          = new ManagerEntreprisePoste();
+                    $poste            = $manager->chercher(['idEntreprisePoste' => $offre->getIdEntreprisePoste()]);
                     if ($_SESSION['compte']['identifiant'] == "candidat") {
-                        $manager = new ManagerCandidat();
-                        $candidat = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
-                        $manager  = new ManagerCandidature();
+                        $manager     = new ManagerCandidat();
+                        $candidat    = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
+                        $manager     = new ManagerCandidature();
                         $candidature = $manager->chercher(['idOffre'    => $offre->getIdOffre(),
                                                            'idCandidat' => $candidat->getIdCandidat()]);
                     }
@@ -110,6 +116,7 @@
                         'contrat'          => $contrat, 
                         'niveauExperience' => $niveauExperience, 
                         'niveauEtude'      => $niveauEtude,
+                        'poste'            => $poste,
                         'candidature'      => $candidature
                     ];   
                 }

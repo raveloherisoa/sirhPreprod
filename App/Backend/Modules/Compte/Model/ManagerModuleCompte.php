@@ -753,21 +753,4 @@
             }
         }
 
-        /** 
-         * Afficher le formulaire d'un employé
-         * 
-         * @param $parameters Les donnée à récupérer
-         * 
-         * @return object
-         */
-        public function afficherFormEmploye($parameters)
-        {
-            $manager = new ManagerEmploye();
-            if (isset($parameters)) {
-                $employe = $manager->chercher($parameters);
-            } else {
-                $employe = $manager->initialiser();
-            }
-            return $employe;
-        }
 	}

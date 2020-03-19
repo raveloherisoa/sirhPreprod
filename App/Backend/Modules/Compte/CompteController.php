@@ -315,20 +315,4 @@
 			}
 		}
 
-		/** 
-		 * Récupérer un candidat
-		 *
-		 * @param array $parameters Les données à récupérer
-		 *
-		 * @return empty
-		 */
-		public function executeRecupererCandidat($parameters)
-		{
-			$manager = new ManagerCandidat();
-			$candidat = $manager->chercher($parameters);
-			$_SESSION['candidat'] = $candidat->toArray();
-			header("Location:" . HOST . "manage/create-employee?identifiant=employe");
-			exit();
-		}
-
 	}

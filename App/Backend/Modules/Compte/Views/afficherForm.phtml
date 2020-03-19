@@ -387,12 +387,17 @@
 	    }
 
 		$('#select-country').change(function(){
-			$('#input-phone').removeClass('hidden');
-			$('#contactRh').removeClass('hidden');
-	      	cleave.setPhoneRegionCode(this.value);
-	      	cleave.setRawValue('');
-	      	cleaveRH.setPhoneRegionCode(this.value);
-	      	cleaveRH.setRawValue('');
+			if ($('#select-country').children("option:selected").val() == "") {
+		    	$('#input-phone').addClass('hidden');
+		    	$('#contactRh').addClass('hidden');
+		    } else {
+		    	$('#input-phone').removeClass('hidden');
+				$('#contactRh').removeClass('hidden');
+		      	cleave.setPhoneRegionCode(this.value);
+		      	cleave.setRawValue('');
+		      	cleaveRH.setPhoneRegionCode(this.value);
+		      	cleaveRH.setRawValue('');
+		    }
 	    });
 	} else {
 		if ($('#select-country').children("option:selected").val() == "") {
@@ -400,9 +405,13 @@
 	    }
 
 		$('#select-country').change(function(){
-			$('#input-phone').removeClass('hidden');
-	      	cleave.setPhoneRegionCode(this.value);
-	      	cleave.setRawValue('');
+			if ($('#select-country').children("option:selected").val() == "") {
+		    	$('#input-phone').addClass('hidden');
+		    } else {
+				$('#input-phone').removeClass('hidden');
+		      	cleave.setPhoneRegionCode(this.value);
+		      	cleave.setRawValue('');
+		    }
 	    });
 	} 
 </script>

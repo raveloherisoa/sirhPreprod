@@ -13,6 +13,8 @@
 	use \Core\BackController;
 
 	use \Model\ManagerOffre;
+	use \Model\ManagerCandidat;
+	use \Model\ManagerEntreprisePoste;
 
 	require(__DIR__ . "/Model/ManagerModuleRecrutement.php");
 
@@ -273,6 +275,25 @@
 			$manager = new \ManagerModuleRecrutement();
 			$resultats = $manager->$method($parameters);
 			return $manager->specifierDonnees($url[1], $resultats);			
+		}
+
+		/** 
+		 * Récupérer les données 
+		 *
+		 * @param array $parameters Les données à récupérer
+		 *
+		 * @return empty
+		 */
+		public function executeRecupererDonnees($parameters)
+		{
+			$manager = new ManagerCandidat();
+			$candidat = $manager->chercher(['idCandidat' => $parameters['idCandidat']]);
+			$_SESSION['candidat'] = $candidat->toArray();
+			$manager = new ManagerEntreprisePoste();
+			$poste = $manager->chercher(['idEntreprisePoste' => $parameters['idEntreprisePoste']]);
+			$_SESSION['poste'] = $poste->toArray();
+			header("Location:" . HOST . "manage/create-employee?identifiant=employe");
+			exit();
 		}
 
 		

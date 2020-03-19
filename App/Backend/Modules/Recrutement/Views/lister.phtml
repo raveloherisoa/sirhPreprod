@@ -539,7 +539,7 @@
 									      	<a href="#" class="btn btn-danger modal-confirmation" data-toggle="modal" data-target="#confirmationModal" data-id="<?= $entretien->getIdEntretien(); ?>" data-name="annuler la validation de cet entretien" data-url="cancel-entretien?idEntretien=">Annuler la validation
 							                </a>
 
-							                <a href="<?= HOST . "manage/recover-candidat?idCandidat=" . $candidat->getIdCandidat() ?>" class="btn btn-secondary">Embaucher</a>
+							                <a href="<?= HOST . "manage/recover-data?idCandidat=" . $candidat->getIdCandidat() . "&idEntreprisePoste=" . $poste->getIdEntreprisePoste(); ?>" class="btn btn-secondary">Embaucher</a>
 									    <?php elseif ($entretien->getStatut() == "rejete"): ?>
 									      	<a href="#" class="btn btn-danger modal-confirmation" data-toggle="modal" data-target="#confirmationModal" data-id="<?= $entretien->getIdEntretien(); ?>" data-name="annuler le rejet de cet entretien" data-url="cancel-entretien?idEntretien=">Annuler le rejet
 							                </a>

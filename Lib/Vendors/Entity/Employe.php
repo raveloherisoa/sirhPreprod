@@ -27,7 +27,7 @@
 		private $contact;
 		private $email;
 		private $personnalite;
-		private $poste;
+		private $idEntreprisePoste;
 		private $chefHierarchique;
 		private $numeroCnaps;
 		private $statuCnaps;
@@ -41,6 +41,7 @@
 		private $cv;
 		private $lettreMotivation;
 		private $autreDossier;
+		private $statut;
 
 		/** 
 		 * Initialisation d'un Employe
@@ -159,9 +160,9 @@
 			return $this->personnalite;
 		}
 
-		public function getPoste()
+		public function getIdEntreprisePoste()
 		{
-			return $this->poste;
+			return $this->idEntrepriseposte;
 		}
 
 		public function getChefHierarchique()
@@ -227,6 +228,11 @@
 		public function getAutreDossier()
 		{
 			return $this->autreDossier;
+		}
+
+		public function getStatut()
+		{
+			return $this->statut;
 		}
 
 	// Seters
@@ -305,9 +311,9 @@
 			$this->personnalite = $personnalite;
 		}
 
-		public function setPoste($poste)
+		public function setIdEntreprisePoste($idEntrepriseposte)
 		{
-			$this->poste = $poste;
+			$this->idEntrepriseposte = $idEntrepriseposte;
 		}
 
 		public function setChefHierarchique($chefHierarchique)
@@ -373,6 +379,11 @@
 		public function setAutreDossier($autreDossier)
 		{
 			$this->autreDossier = $autreDossier;
+		}
+
+		public function setStatut($statut)
+		{
+			$this->statut = $statut;
 		}
 
 	}

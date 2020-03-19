@@ -62,7 +62,7 @@
 	                        			<br><?= $entreprise->getNom(); ?>
 	                        		</div>
 	                        		<div class="col-md-8">
-	                        			<h2 class="offre-poste"><?= ucfirst($offre->getPoste()); ?></h2>
+	                        			<h2 class="offre-poste"><?= ucfirst($poste->getPoste()); ?></h2>
 		                                <h3 class="offre-detail">Contrat : <?= $contrat->getDesignation();?> &nbsp; &nbsp; Date limite : 
 					              			<?php
 							   					$dateLimite   = str_replace('-', '/', $offre->getDateLimite()); 

@@ -115,7 +115,7 @@ a.renseignement:hover {
 
 .small-col{flex-basis:10%;}
 
-div#block-domaine, div#block-sousDomaine, div#block-niveauEtude, div#block-contrat, div#block-niveauExperience {
+div#block-domaine, div#block-sousDomaine, div#block-niveauEtude, div#block-contrat, div#block-niveauExperience, div#block-banque {
     display: none;
 }
 

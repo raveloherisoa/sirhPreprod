@@ -257,7 +257,9 @@
 											array("code" => "ZM", "country" => "Zambie"),
 											array("code" => "ZW", "country" => "Zimbabwe"),
 										)));
-
+	
+	define ("STATUT_CNAPS", serialize(array ("en cours", "en attente", "matriculé")));
+	define ("TYPE_PAIEMENT", serialize(array ("par chèque", "virement", "en espèce")));
 	$appLoader = new SplClassLoader('App', __DIR__);
 	$appLoader->register();	
 	use \App\Frontend\FrontendApplication;

@@ -33,7 +33,6 @@
 	<route url="manage/cv_candidat" module="recrutement" action="voirDetail" user="entreprise"></route>
 	<route url="manage/edit-personnalite_candidat" module="compte" action="afficherFormPersonnalite" user="candidat"></route>
 	<route url="manage/publish-candidat" module="compte" action="mettreAJourPubliqueCandidat" user="candidat"></route>
-	<route url="manage/recover-candidat" module="compte" action="recupererCandidat" user="entreprise"></route>
 
 	<route url="manage/emails_contacts" module="compte" action="lister" user="superadmin"></route>
 	<route url="manage/create-email_contact" module="compte" action="afficherForm" user="superadmin"></route>
@@ -45,7 +44,8 @@
 	<route url="manage/historique" module="compte" action="voirDetail" user="superadmin"></route>
 
 	<route url="manage/create-employee" module="compte" action="creerCompte" user="entreprise"></route>
-	<route url="manage/register-employe" module="compte" action="afficherForm" user="entreprise"></route>
+	<route url="manage/register-employe" module="employe" action="afficherForm" user="entreprise"></route>
+	<route url="manage/save-employe" module="employe" action="mettreAJour" user="entreprise"></route>
 
 	<route url="manage/domaines" module="recrutement" action="lister" user="superadmin"></route>
 	<route url="manage/domaine" module="recrutement" action="voirDetail" user="superadmin"></route>
@@ -169,6 +169,8 @@
 	<route url="manage/tableau_de_bord-offre" module="recrutement" action="parametrerGraphe" user="entreprise"></route>
 	<route url="manage/tableau_de_bord-entretien" module="recrutement" action="parametrerGraphe" user="entreprise"></route>
 	<route url="manage/tableau_de_bord-interlocuteur" module="recrutement" action="parametrerGraphe" user="entreprise"></route>
+
+	<route url="manage/recover-data" module="recrutement" action="recupererDonnees" user="entreprise"></route>
 
 	<route url="manage/banques" module="employe" action="lister" user="superadmin"></route>
 	<route url="manage/create-banque" module="employe" action="afficherForm" user="superadmin"></route>
